@@ -256,6 +256,8 @@ ECGVEventType ECGraphicViewImp :: WaitForEvent()
                 return ECGV_EV_KEY_DOWN_D;
                 
             case ALLEGRO_KEY_SPACE:
+                // cout << "space pressed" << endl;
+                // cout << "prev event num: " << GetCurrEvent() << endl;
                 return ECGV_EV_KEY_DOWN_SPACE;
             
             case ALLEGRO_KEY_G:

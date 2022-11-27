@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef ECOBERVER_H
-#define ECOBERVER_H
+#ifndef ECOBSERVER_H
+#define ECOBSERVER_H
 
 #include <vector>
 #include <algorithm>
@@ -52,6 +52,5 @@ public:
 private:
     std::vector<ECObserver *> listObservers;
 };
-
 
 #endif
