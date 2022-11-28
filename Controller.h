@@ -14,8 +14,11 @@ public:
 	vector<Shape*> getListShapes() { return listShapes; }
 	void addShape(Shape* x) { listShapes.push_back(x); }
 	void removeShape(Shape* x);
+	void select(int px, int py);
+	Shape* getSelected();
 private:
 	vector<Shape*> listShapes;
+	Shape* selected = NULL;
 };
 
 class Controller {
@@ -32,8 +35,14 @@ public:
 	int getMouseEvents() { return mouseEvents; }
 
 	// mode
-	void changeMode() { mode = !mode; cout << "mode changed" << endl; }
+	void changeMode() { 
+		mode = !mode;
+		if (mode) cout << "mode changed to edit" << endl;
+		else cout << "mode changed to insert" << endl;
+	}
 	int getMode() { return mode; }
+
+	void select(int px, int py) { model->select(px, py); }
 
 	void insertRectangle(int x2, int y2);
 

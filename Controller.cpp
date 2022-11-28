@@ -27,3 +27,20 @@ void ShapesModel::removeShape(Shape* s) {
 		}
 	}
 }
+
+void ShapesModel::select(int px, int py) {
+	cout << "selecting in model" << endl;
+	if (selected != NULL) {
+		selected->unselectedColorChange();
+		selected = NULL;
+	}
+	for (auto i = listShapes.rbegin(); i != listShapes.rend(); i++) {
+		if ((*i)->isPointInside(px, py)) {
+			cout << "point is inside a rectangle" << endl;
+			selected = *i;
+			(*i)->selectedColorChange();
+			return;
+		}
+	}
+	cout << selected << endl;
+}

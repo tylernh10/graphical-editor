@@ -32,7 +32,8 @@ public:
     virtual void Update() {
         if (view.GetCurrEvent() == ECGV_EV_TIMER) {
             for (auto x : tempController.getListShapes()) {
-                view.DrawRectangle(x->x1, x->y1, x->x2, x->y2);
+                //cout << x->getAttributes().GetColor() << endl;
+                view.DrawRectangle(x->getX1(), x->getY1(), x->getX2(), x->getY2(), 3, x->getAttributes().GetColor());
                 view.SetRedraw(true);
             }
         }
@@ -89,6 +90,19 @@ public:
                 view.GetCursorPosition(curX, curY);
                 tempController.insertRectangle(curX, curY);
                 view.SetRedraw(true);
+            }
+        }
+        else {
+            if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN) {
+                tempController.incMouseEvents();
+                int x, y;
+                view.GetCursorPosition(x, y);
+                //cout << "Rectangle placed at: " << x << ", " << y << endl;
+                /*tempController.updateX(x);
+                tempController.updateY(y);*/
+
+                tempController.select(x, y);
+                //view.SetRedraw(true);
             }
         }
     }

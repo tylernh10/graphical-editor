@@ -148,6 +148,7 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ECGraphicViewImp.cpp" />
+    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="test-gv.cpp" />
   </ItemGroup>
   <ItemGroup>

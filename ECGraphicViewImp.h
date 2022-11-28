@@ -81,7 +81,7 @@ extern ALLEGRO_COLOR arrayAllegroColors[ECGV_NUM_COLORS];
 class ECDrawiingContext
 {
 public:
-    ECDrawiingContext() : thickness(3), color(ECGV_NONE) {}
+    ECDrawiingContext() : thickness(3), color(ECGV_BLACK) {}
     void SetThickness(int t) { thickness = t; }
     int GetThickness() const { return thickness; }
     void SetColor(ECGVColor c) { color = c; }
