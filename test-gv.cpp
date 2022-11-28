@@ -20,12 +20,14 @@ int real_main(int argc, char **argv)
   ECDrawObserver* testDraw = new ECDrawObserver(view, ctrl);
   ECDObserver* testDel = new ECDObserver(view, ctrl);
   ECMouseObserver* testMouse = new ECMouseObserver(view, ctrl);
+  ECUndoRedoObserver* testUR = new ECUndoRedoObserver(view, ctrl);
 
   // Attaching observers
   view.Attach(test);
   view.Attach(testDraw);
   view.Attach(testDel);
   view.Attach(testMouse);
+  view.Attach(testUR);
 
   // Run application
   view.Show();

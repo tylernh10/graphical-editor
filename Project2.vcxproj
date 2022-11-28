@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Command.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ECGraphicViewImp.h" />
     <ClInclude Include="ECObserver.h" />
@@ -144,6 +145,8 @@
     <ClInclude Include="Shape.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Command.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ECGraphicViewImp.cpp" />
     <ClCompile Include="test-gv.cpp" />
   </ItemGroup>

@@ -2,26 +2,28 @@
 #define ECCONTROLLER_H
 
 #include "Shape.h"
+#include "Command.h"
 #include <vector>
 using namespace std;
+
+class ECCommandHistory; // necessary forward declaration
 
 class ShapesModel {
 public:
 	ShapesModel() {}
 	vector<Shape*> getListShapes() { return listShapes; }
 	void addShape(Shape* x) { listShapes.push_back(x); }
-	void removeShape(Shape* x) { /** TODO */ }
+	void removeShape(Shape* x);
 private:
 	vector<Shape*> listShapes;
-	//int mouseDownX; // saves x position of mouse down event
-	//int mouseDownY; // saves y position of mouse down event
-	//int mouseEvents; // keeps track of how many mouse up and mouse down events have occurred
 };
 
 class Controller {
 public:
-	Controller(ShapesModel * model): model(model) {}
+	Controller(ShapesModel* model);
 	vector<Shape*> getListShapes() { return model->getListShapes(); }
+	
+	// cursor position
 	void updateX(int x) { mouseDownX = x; }
 	void updateY(int y) { mouseDownY = y; }
 	int getX() { return mouseDownX; }
@@ -29,31 +31,22 @@ public:
 	void incMouseEvents() { mouseEvents++; }
 	int getMouseEvents() { return mouseEvents; }
 
-	void insertRectangle(int x2, int y2) {
-		Shape* x = new Shape(mouseDownX, mouseDownY, x2, y2);
-		model->addShape(x);
-	}
-	/*vector<Shape *> getTempModel() { return TempShapeModel; }
-	void addShape() {
-		Shape* x = new Shape();
-		TempShapeModel.push_back(x);
-	}
-	void addShape(int x1, int y1, int x2, int y2) {
-		Shape* x = new Shape(x1, y1, x2, y2);
-		TempShapeModel.push_back(x);
-	}
-	void clearModel() {
-		for (auto x : TempShapeModel) {
-			delete x;
-		}
-		TempShapeModel.clear();
-	}*/
+	// mode
+	void changeMode() { mode = !mode; cout << "mode changed" << endl; }
+	int getMode() { return mode; }
+
+	void insertRectangle(int x2, int y2);
+
+	void Undo();
+	void Redo();
 
 private:
 	ShapesModel* model;
-	int mouseDownX;
-	int mouseDownY;
-	int mouseEvents;
+	ECCommandHistory* history; // saves history of all commands so far
+	int mouseDownX; // saves x position of mouse down event
+	int mouseDownY; // saves y position of mouse down event
+	int mouseEvents; // keeps track of how many mouse up and mouse down events have occurred
+	int mode = 0; // insert mode is 0, edit mode is 1
 };
 
 #endif // !
