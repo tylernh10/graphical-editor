@@ -14,8 +14,12 @@ public:
 	vector<Shape*> getListShapes() { return listShapes; }
 	void addShape(Shape* x) { listShapes.push_back(x); }
 	void removeShape(Shape* x);
+	void moveShape(int x1, int y1, int x2, int y2, Shape* x);
+	
+	// selection
 	void select(int px, int py);
 	Shape* getSelected();
+	void removeSelected();
 private:
 	vector<Shape*> listShapes;
 	Shape* selected = NULL;
@@ -31,20 +35,23 @@ public:
 	void updateY(int y) { mouseDownY = y; }
 	int getX() { return mouseDownX; }
 	int getY() { return mouseDownY; }
+	
+	// mouse events
 	void incMouseEvents() { mouseEvents++; }
 	int getMouseEvents() { return mouseEvents; }
+	void resetMouseEvents() { mouseEvents = 0; }
 
 	// mode
-	void changeMode() { 
-		mode = !mode;
-		if (mode) cout << "mode changed to edit" << endl;
-		else cout << "mode changed to insert" << endl;
-	}
+	void changeMode();
 	int getMode() { return mode; }
 
-	void select(int px, int py) { model->select(px, py); }
+	// selection
+	void select(int px, int py) { model->select(px, py); } // attempts to select a shape at the given coordinates
+	Shape* getSelected() { return model->getSelected(); }
 
-	void insertRectangle(int x2, int y2);
+	void insertRectangle(int x2, int y2); // change to insertShape later
+	void deleteShape(); // delete selected shape
+	void moveShape(int translateX, int translateY); // move shape to new position based on translation
 
 	void Undo();
 	void Redo();

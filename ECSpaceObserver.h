@@ -17,6 +17,8 @@ public:
     virtual void Update() {
         if (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_SPACE) {
             tempController.changeMode();
+            tempController.resetMouseEvents();
+            view.SetRedraw(true); // needed for color change of selected becoming unselected
         }
     }
 private:
@@ -49,10 +51,12 @@ public:
     ECDObserver(ECGraphicViewImp& view, Controller& tempController) : view(view), tempController(tempController) {}
     virtual ~ECDObserver() {}
     virtual void Update() {
-        if (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_D) {
+        if (tempController.getMode() == 1 && view.GetCurrEvent() == ECGV_EV_KEY_DOWN_D) {
             /*cout << "deleting all shapes" << endl;
             tempController.clearModel();
             view.SetRedraw(true);*/
+            tempController.deleteShape(); // deletes selected shape if in edit mode
+            view.SetRedraw(true);
         }
     }
 private:
@@ -66,6 +70,7 @@ public:
     ECMouseObserver(ECGraphicViewImp& view, Controller& tempController) : view(view), tempController(tempController) {}
     virtual ~ECMouseObserver() {}
     virtual void Update() {
+        // insertion mode
         if (tempController.getMode() == 0) {
             if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_UP) {
                 tempController.incMouseEvents();
@@ -75,6 +80,8 @@ public:
                 int x, y;
                 view.GetCursorPosition(x, y);
                 cout << "Rectangle placed at: " << x << ", " << y << endl;
+                
+                // saving position where clicked
                 tempController.updateX(x);
                 tempController.updateY(y);
             }
@@ -92,17 +99,42 @@ public:
                 view.SetRedraw(true);
             }
         }
+        // edit mode
         else {
+            if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_UP) {
+                tempController.incMouseEvents();
+            }
             if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN) {
                 tempController.incMouseEvents();
                 int x, y;
                 view.GetCursorPosition(x, y);
-                //cout << "Rectangle placed at: " << x << ", " << y << endl;
-                /*tempController.updateX(x);
-                tempController.updateY(y);*/
+
+                // saving position where clicked
+                tempController.updateX(x);
+                tempController.updateY(y);
 
                 tempController.select(x, y);
-                //view.SetRedraw(true);
+                view.SetRedraw(true);
+            }
+            if (view.GetCurrEvent() == ECGV_EV_TIMER && tempController.getMouseEvents() % 2 == 1) {
+                // draw with dimensions of selected at the position of the cursor
+                int curX, curY;
+                view.GetCursorPosition(curX, curY);
+                int translateX = curX - tempController.getX();
+                int translateY = curY - tempController.getY();
+                Shape* s = tempController.getSelected();
+                if (s != NULL) {
+                    view.DrawRectangle(s->getX1() + translateX, s->getY1() + translateY, s->getX2() + translateX, s->getY2() + translateY, 3, ECGV_CYAN);
+                }
+                view.SetRedraw(true);
+            }
+            if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_UP) {
+                int curX, curY;
+                view.GetCursorPosition(curX, curY);
+                int translateX = curX - tempController.getX();
+                int translateY = curY - tempController.getY();
+                tempController.moveShape(translateX, translateY);
+                view.SetRedraw(true);
             }
         }
     }

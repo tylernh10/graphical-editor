@@ -12,6 +12,10 @@ public:
 	int getY1() const { return y1; }
 	int getX2() const { return x2; }
 	int getY2() const { return y2; }
+	void setX1(int x) { x1 = x; }
+	void setY1(int y) { y1 = y; }
+	void setX2(int x) { x2 = x; }
+	void setY2(int y) { y2 = y; }
 	virtual bool isPointInside(int px, int py) const = 0;
 	void selectedColorChange() { attributes.SetColor(ECGV_BLUE); }
 	void unselectedColorChange() { attributes.SetColor(ECGV_BLACK); }
