@@ -73,7 +73,7 @@ public:
         // insertion mode
         if (tempController.getMode() == 0) {
             if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_UP) {
-                tempController.incMouseEvents();
+                if (tempController.getMouseEvents() % 2 == 1) tempController.incMouseEvents();
             }
             if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN) {
                 tempController.incMouseEvents();
@@ -91,7 +91,7 @@ public:
                 view.DrawRectangle(tempController.getX(), tempController.getY(), curX, curY, 3, ECGV_PURPLE);
                 view.SetRedraw(true);
             }
-            if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_UP && tempController.getMouseEvents() % 2 == 0) {
+            if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_UP && tempController.getMouseEvents() % 2 == 0 && tempController.getMouseEvents() > 0) {
                 // insert with controller
                 int curX, curY;
                 view.GetCursorPosition(curX, curY);
@@ -129,12 +129,15 @@ public:
                 view.SetRedraw(true);
             }
             if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_UP) {
-                int curX, curY;
-                view.GetCursorPosition(curX, curY);
-                int translateX = curX - tempController.getX();
-                int translateY = curY - tempController.getY();
-                tempController.moveShape(translateX, translateY);
-                view.SetRedraw(true);
+                if (tempController.getMouseEvents() % 2 == 0)
+                {
+                    int curX, curY;
+                    view.GetCursorPosition(curX, curY);
+                    int translateX = curX - tempController.getX();
+                    int translateY = curY - tempController.getY();
+                    tempController.moveShape(translateX, translateY);
+                    view.SetRedraw(true);
+                }
             }
         }
     }
