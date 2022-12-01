@@ -4,7 +4,8 @@
 void ECSpaceObserver :: Update() {
     if (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_SPACE) {
         ctrl.changeMode();
-        ctrl.resetMouseEvents();
+        //ctrl.setMouseUp();
+        ctrl.setMouseDownThisMode(0);
         view.SetRedraw(true); // needed for color change of selected becoming unselected
     }
 }

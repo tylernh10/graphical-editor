@@ -36,11 +36,13 @@ public:
 	void updateY(int y) { mouseDownY = y; }
 	int getX() { return mouseDownX; }
 	int getY() { return mouseDownY; }
-	
-	// mouse events (total number of times mouse down or mouse up events occur)
-	void incMouseEvents() { mouseEvents++; }
-	int getMouseEvents() { return mouseEvents; }
-	void resetMouseEvents() { mouseEvents = 0; }
+
+	// mouse events
+	bool getMouseDown() { return mouseDown; }
+	void setMouseDown() { mouseDown = true; }
+	void setMouseUp() { mouseDown = false; }
+	void setMouseDownThisMode(bool x) { hasMouseBeenPressed = x; }
+	bool getMouseDownThisMode() { return hasMouseBeenPressed; }
 
 	// mode
 	void changeMode();
@@ -64,8 +66,10 @@ private:
 	ECCommandHistory* history; // saves history of all commands so far
 	int mouseDownX; // saves x position of mouse down event
 	int mouseDownY; // saves y position of mouse down event
-	int mouseEvents; // keeps track of how many mouse up and mouse down events have occurred
 	int mode; // edit mode is 0, insert mode is 1
+
+	bool mouseDown; // true if mouse is clicked (down)
+	bool hasMouseBeenPressed; // true if mouse has been pressed since switching modes
 };
 
 #endif

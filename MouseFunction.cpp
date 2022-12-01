@@ -11,27 +11,27 @@ void ECAbstractMouseFunction::saveCursorPosition()  {
 
 // EditModeMouseFunction
 void EditModeMouseFunction::mouseDown() {
-    ctrl.incMouseEvents();
-    saveCursorPosition();
-    ctrl.select(ctrl.getX(), ctrl.getY());
-    view.SetRedraw(true);
-}
-void EditModeMouseFunction::mouseUp() {
-    if (ctrl.getMouseEvents() > 0) ctrl.incMouseEvents();
-    if (ctrl.getMouseEvents() % 2 == 0)
-    {
-        int curX, curY;
-        view.GetCursorPosition(curX, curY);
-        int translateX = curX - ctrl.getX();
-        int translateY = curY - ctrl.getY();
-        if (fabs(translateX) > 0 || fabs(translateY) > 0) {
-            ctrl.moveShape(translateX, translateY);
-        }
+    if (!ctrl.getMouseDown()) {
+        ctrl.setMouseDown();
+        ctrl.setMouseDownThisMode(1);
+        saveCursorPosition();
+        ctrl.select(ctrl.getX(), ctrl.getY());
         view.SetRedraw(true);
     }
 }
+void EditModeMouseFunction::mouseUp() {
+    ctrl.setMouseUp();
+    int curX, curY;
+    view.GetCursorPosition(curX, curY);
+    int translateX = curX - ctrl.getX();
+    int translateY = curY - ctrl.getY();
+    if (fabs(translateX) > 0 || fabs(translateY) > 0) {
+        ctrl.moveShape(translateX, translateY);
+    }
+    view.SetRedraw(true);
+}
 void EditModeMouseFunction::timer() {
-    if (ctrl.getMouseEvents() % 2 == 1) {
+    if (ctrl.getMouseDown()) {
         int curX, curY;
         view.GetCursorPosition(curX, curY);
         int translateX = curX - ctrl.getX();
@@ -46,13 +46,16 @@ void EditModeMouseFunction::timer() {
 
 // InsertModeMouseFunction
 void InsertModeMouseFunction::mouseDown() {
-    ctrl.incMouseEvents();
-    saveCursorPosition();
+    if (!ctrl.getMouseDown()) {
+        ctrl.setMouseDown();
+        ctrl.setMouseDownThisMode(1);
+        saveCursorPosition();
+    }
 }
 void InsertModeMouseFunction::mouseUp() {
-    if (ctrl.getMouseEvents() % 2 == 1) ctrl.incMouseEvents();
+    ctrl.setMouseUp();
     // insert with controller
-    if (ctrl.getMouseEvents() % 2 == 0 && ctrl.getMouseEvents() > 0) { // TODO: check if necessary
+    if (ctrl.getMouseDownThisMode()) {
         int curX, curY;
         view.GetCursorPosition(curX, curY);
         ctrl.insertRectangle(curX, curY);
@@ -60,7 +63,7 @@ void InsertModeMouseFunction::mouseUp() {
     }
 }
 void InsertModeMouseFunction::timer() {
-    if (ctrl.getMouseEvents() % 2 == 1) {
+    if (ctrl.getMouseDown() && ctrl.getMouseDownThisMode()) {
         int curX, curY;
         view.GetCursorPosition(curX, curY);
         view.DrawRectangle(ctrl.getX(), ctrl.getY(), curX, curY, 3, ECGV_PURPLE);
