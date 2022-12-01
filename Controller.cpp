@@ -2,7 +2,7 @@
 
 
 // controller
-Controller :: Controller(ShapesModel* model) : model(model) {
+Controller :: Controller(ShapesModel* model) : model(model), mode(0) {
 	history = new ECCommandHistory;
 }
 
@@ -30,12 +30,8 @@ void Controller::moveShape(int translateX, int translateY) {
 }
 
 void Controller::changeMode() {
-	mode = !mode;
-	if (mode) cout << "mode changed to edit" << endl;
-	else {
-		model->removeSelected(); // removed when changing back to insertion mode
-		cout << "mode changed to insert" << endl;
-	}
+	mode = !mode; // 0 is edit mode, 1 is insertion mode
+	if (!mode) model->removeSelected(); // removed when changing back to insertion mode
 }
 
 void Controller::Undo() {

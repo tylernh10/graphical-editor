@@ -65,7 +65,7 @@ private:
 	int mouseDownX; // saves x position of mouse down event
 	int mouseDownY; // saves y position of mouse down event
 	int mouseEvents; // keeps track of how many mouse up and mouse down events have occurred
-	int mode = 0; // insert mode is 0, edit mode is 1
+	int mode; // edit mode is 0, insert mode is 1
 };
 
 #endif

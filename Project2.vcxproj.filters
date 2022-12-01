@@ -21,7 +21,7 @@
     <ClInclude Include="ECObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECSpaceObserver.h">
+    <ClInclude Include="ECRealObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shape.h">
@@ -32,6 +32,9 @@
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseFunction.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +51,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Shape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ECRealObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

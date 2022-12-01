@@ -141,13 +141,16 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ECGraphicViewImp.h" />
     <ClInclude Include="ECObserver.h" />
-    <ClInclude Include="ECSpaceObserver.h" />
+    <ClInclude Include="ECRealObserver.h" />
+    <ClInclude Include="MouseFunction.h" />
     <ClInclude Include="Shape.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ECGraphicViewImp.cpp" />
+    <ClCompile Include="ECRealObserver.cpp" />
+    <ClCompile Include="MouseFunction.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="test-gv.cpp" />
   </ItemGroup>
