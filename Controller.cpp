@@ -16,9 +16,8 @@ void Controller::deleteShape() {
 	if (s != NULL) {
 		DeleteShape* d = new DeleteShape(s, model);
 		history->ExecuteCmd(d);
-		//cout << "successful delete" << endl;
 	}
-	//else cout << "nothing is selected";
+	model->removeSelected();
 }
 
 void Controller::moveShape(int translateX, int translateY) {
@@ -49,7 +48,7 @@ void Controller::Redo() {
 	history->Redo();
 }
 
-// model
+// ShapesModel
 void ShapesModel::removeShape(Shape* x) {
 	for (auto i = listShapes.begin(); i != listShapes.end(); i++) {
 		if (x == *i) {
@@ -72,7 +71,6 @@ void ShapesModel::moveShape(int x1, int y1, int x2, int y2, Shape* x) {
 }
 
 void ShapesModel::select(int px, int py) {
-	cout << "selecting in model" << endl;
 	if (selected != NULL) {
 		selected->unselectedColorChange();
 		selected = NULL;

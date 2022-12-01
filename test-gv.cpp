@@ -16,18 +16,18 @@ int real_main(int argc, char **argv)
   Controller ctrl(model);
   
   // Creating observers
-  ECSpaceObserver * test = new ECSpaceObserver(view, ctrl);
-  ECDrawObserver* testDraw = new ECDrawObserver(view, ctrl);
-  ECDObserver* testDel = new ECDObserver(view, ctrl);
-  ECMouseObserver* testMouse = new ECMouseObserver(view, ctrl);
-  ECUndoRedoObserver* testUR = new ECUndoRedoObserver(view, ctrl);
+  ECSpaceObserver * SpaceObserver = new ECSpaceObserver(view, ctrl);
+  ECDrawObserver* DrawObserver = new ECDrawObserver(view, ctrl);
+  ECDObserver* DelObserver = new ECDObserver(view, ctrl);
+  ECMouseObserver* MouseObserver = new ECMouseObserver(view, ctrl);
+  ECUndoRedoObserver* UndoRedoObserver = new ECUndoRedoObserver(view, ctrl);
 
   // Attaching observers
-  view.Attach(test);
-  view.Attach(testDraw);
-  view.Attach(testDel);
-  view.Attach(testMouse);
-  view.Attach(testUR);
+  view.Attach(SpaceObserver);
+  view.Attach(DrawObserver);
+  view.Attach(DelObserver);
+  view.Attach(MouseObserver);
+  view.Attach(UndoRedoObserver);
 
   // Run application
   view.Show();

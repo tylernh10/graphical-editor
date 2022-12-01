@@ -167,6 +167,8 @@ cout << "Start init..\n";
     }
     // create the display
     display = al_create_display(widthView, heightView);
+    al_set_window_title(display, "Tyler's Graphical Editor");
+    al_set_window_position(display, 0, 0);
     if(!display) {
         cout << "failed to create display!\n";
         Shutdown();

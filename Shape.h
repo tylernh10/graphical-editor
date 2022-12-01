@@ -21,10 +21,10 @@ public:
 	void unselectedColorChange() { attributes.SetColor(ECGV_BLACK); }
 private:
 	ECDrawiingContext attributes;
-	int x1; // corner 1
-	int y1;
-	int x2; // corner 2
-	int y2;
+	int x1; // corner 1 x value
+	int y1; // corner 1 y value
+	int x2; // corner 2 x value
+	int y2; // corner 2 y value
 };
 
 class Rectangle : public Shape {

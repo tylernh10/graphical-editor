@@ -6,6 +6,7 @@
 #include "Controller.h"
 
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 // test observer to see if can attach to spacebar click
@@ -29,7 +30,7 @@ private:
 class ECDrawObserver : public ECObserver
 {
 public:
-    ECDrawObserver(ECGraphicViewImp& view, Controller& tempController): view(view), tempController(tempController) {}
+    ECDrawObserver(ECGraphicViewImp& view, Controller& tempController) : view(view), tempController(tempController) {}
     virtual ~ECDrawObserver() {}
     virtual void Update() {
         if (view.GetCurrEvent() == ECGV_EV_TIMER) {
@@ -80,7 +81,7 @@ public:
                 int x, y;
                 view.GetCursorPosition(x, y);
                 cout << "Rectangle placed at: " << x << ", " << y << endl;
-                
+
                 // saving position where clicked
                 tempController.updateX(x);
                 tempController.updateY(y);
@@ -123,6 +124,7 @@ public:
                 int translateX = curX - tempController.getX();
                 int translateY = curY - tempController.getY();
                 Shape* s = tempController.getSelected();
+                cout << s << endl;
                 if (s != NULL) {
                     view.DrawRectangle(s->getX1() + translateX, s->getY1() + translateY, s->getX2() + translateX, s->getY2() + translateY, 3, ECGV_CYAN);
                 }
@@ -135,7 +137,9 @@ public:
                     view.GetCursorPosition(curX, curY);
                     int translateX = curX - tempController.getX();
                     int translateY = curY - tempController.getY();
-                    tempController.moveShape(translateX, translateY);
+                    if (fabs(translateX) > 0 || fabs(translateY) > 0) {
+                        tempController.moveShape(translateX, translateY);
+                    }
                     view.SetRedraw(true);
                 }
             }

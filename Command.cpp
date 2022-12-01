@@ -4,12 +4,10 @@
 void InsertShape::Execute() {
 	// adds shape to model
 	model->addShape(s);
-	//cout << model->getListShapes().size() << endl;
 }
 
 void InsertShape::UnExecute() {
 	model->removeShape(s);
-	//cout << model->getListShapes().size() << endl;
 }
 
 // delete command

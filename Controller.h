@@ -18,8 +18,9 @@ public:
 	
 	// selection
 	void select(int px, int py);
-	Shape* getSelected();
-	void removeSelected();
+	Shape* getSelected(); // return currently selected shape
+	void removeSelected(); // sets selected variable to null; deselects any shape that is selected
+
 private:
 	vector<Shape*> listShapes;
 	Shape* selected = NULL;
@@ -36,7 +37,7 @@ public:
 	int getX() { return mouseDownX; }
 	int getY() { return mouseDownY; }
 	
-	// mouse events
+	// mouse events (total number of times mouse down or mouse up events occur)
 	void incMouseEvents() { mouseEvents++; }
 	int getMouseEvents() { return mouseEvents; }
 	void resetMouseEvents() { mouseEvents = 0; }
@@ -49,15 +50,17 @@ public:
 	void select(int px, int py) { model->select(px, py); } // attempts to select a shape at the given coordinates
 	Shape* getSelected() { return model->getSelected(); }
 
-	void insertRectangle(int x2, int y2); // change to insertShape later
+	// modifying shapes
+	void insertRectangle(int x2, int y2); // insert a rectangle
 	void deleteShape(); // delete selected shape
 	void moveShape(int translateX, int translateY); // move shape to new position based on translation
 
+	// undo/redo operations
 	void Undo();
 	void Redo();
 
 private:
-	ShapesModel* model;
+	ShapesModel* model; // reference to model
 	ECCommandHistory* history; // saves history of all commands so far
 	int mouseDownX; // saves x position of mouse down event
 	int mouseDownY; // saves y position of mouse down event
@@ -65,4 +68,4 @@ private:
 	int mode = 0; // insert mode is 0, edit mode is 1
 };
 
-#endif // !
+#endif
