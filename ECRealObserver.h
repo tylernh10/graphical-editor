@@ -3,7 +3,7 @@
 
 #include "ECObserver.h"
 #include "ECGraphicViewImp.h"
-#include "Controller.h"
+#include "ShapesModel.h"
 #include "MouseFunction.h"
 
 #include <iostream>

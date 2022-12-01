@@ -17,7 +17,7 @@ void EditModeMouseFunction::mouseDown() {
     view.SetRedraw(true);
 }
 void EditModeMouseFunction::mouseUp() {
-    ctrl.incMouseEvents();
+    if (ctrl.getMouseEvents() > 0) ctrl.incMouseEvents();
     if (ctrl.getMouseEvents() % 2 == 0)
     {
         int curX, curY;

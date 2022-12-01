@@ -3,7 +3,7 @@
 
 #include <stack>
 
-#include "Controller.h"
+#include "ShapesModel.h"
 
 using namespace std;
 
@@ -57,7 +57,7 @@ private:
 class ECCommandHistory {
 public:
     ECCommandHistory() {}
-    virtual ~ECCommandHistory() {}
+    virtual ~ECCommandHistory();
     bool Undo();
     bool Redo();
     void ExecuteCmd(ECCommand* pCmd);

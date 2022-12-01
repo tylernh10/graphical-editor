@@ -138,7 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
-    <ClInclude Include="Controller.h" />
+    <ClInclude Include="ShapesModel.h" />
     <ClInclude Include="ECGraphicViewImp.h" />
     <ClInclude Include="ECObserver.h" />
     <ClInclude Include="ECRealObserver.h" />
@@ -147,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
-    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="ShapesModel.cpp" />
     <ClCompile Include="ECGraphicViewImp.cpp" />
     <ClCompile Include="ECRealObserver.cpp" />
     <ClCompile Include="MouseFunction.cpp" />

@@ -3,7 +3,7 @@
 //
 #include "ECGraphicViewImp.h"
 #include "ECRealObserver.h"
-#include "Controller.h"
+#include "ShapesModel.h"
 #include "MouseFunction.h"
 #include <iostream>
 using namespace std;
@@ -22,7 +22,7 @@ int real_main(int argc, char **argv)
   ECDObserver* DelObserver = new ECDObserver(view, ctrl);
   ECUndoRedoObserver* UndoRedoObserver = new ECUndoRedoObserver(view, ctrl);
 
-  // Mouse Observer Init
+  // Mouse Observers Init
   InsertModeMouseFunction insertMouseFunctionality(view, ctrl);
   EditModeMouseFunction editMouseFunctionality(view, ctrl);
   ECMouseObserver* EditModeMouseObserver = new ECMouseObserver(view, ctrl, 0, editMouseFunctionality);
@@ -38,6 +38,15 @@ int real_main(int argc, char **argv)
 
   // Run application
   view.Show();
+
+  // Deallocate pointers
+  delete SpaceObserver;
+  delete DrawObserver;
+  delete DelObserver;
+  delete UndoRedoObserver;
+  delete EditModeMouseObserver;
+  delete InsertModeMouseObserver;
+  delete model;
   
   return 0;
 }

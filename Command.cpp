@@ -30,6 +30,18 @@ void MoveShape::UnExecute() {
 
 
 // command history
+ECCommandHistory::~ECCommandHistory() {
+	// deallocate all commands in both undo and redo stacks
+	while (!undoStack.empty()) {
+		delete undoStack.top();
+		undoStack.pop();
+	}
+	while (!redoStack.empty()) {
+		delete redoStack.top();
+		redoStack.pop();
+	}
+}
+
 bool ECCommandHistory::Undo() {
 	if (undoStack.empty()) return false; // make sure there is a command to undo
 	undoStack.top()->UnExecute();
@@ -49,5 +61,9 @@ bool ECCommandHistory::Redo() {
 void ECCommandHistory::ExecuteCmd(ECCommand* pCmd) {
 	pCmd->Execute(); // execute command
 	undoStack.push(pCmd); // push command onto undo stack
-	while (!redoStack.empty()) redoStack.pop(); // clear redo stack
+	// clear redo stack
+	while (!redoStack.empty()) {
+		delete redoStack.top();
+		redoStack.pop();
+	}
 }

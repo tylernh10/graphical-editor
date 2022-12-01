@@ -1,7 +1,7 @@
-#include "Controller.h"
+#include "ShapesModel.h"
 
 
-// controller
+// Controller
 Controller :: Controller(ShapesModel* model) : model(model), mode(0) {
 	history = new ECCommandHistory;
 }
@@ -9,6 +9,7 @@ Controller :: Controller(ShapesModel* model) : model(model), mode(0) {
 void Controller :: insertRectangle(int x2, int y2) {
 	InsertShape* c = new InsertShape(mouseDownX, mouseDownY, x2, y2, model);
 	history->ExecuteCmd(c);
+	cout << "rectangle inserted" << endl;
 }
 
 void Controller::deleteShape() {
@@ -16,6 +17,7 @@ void Controller::deleteShape() {
 	if (s != NULL) {
 		DeleteShape* d = new DeleteShape(s, model);
 		history->ExecuteCmd(d);
+		cout << "shape deleted" << endl;
 	}
 	model->removeSelected();
 }
@@ -31,7 +33,7 @@ void Controller::moveShape(int translateX, int translateY) {
 
 void Controller::changeMode() {
 	mode = !mode; // 0 is edit mode, 1 is insertion mode
-	if (!mode) model->removeSelected(); // removed when changing back to insertion mode
+	if (mode) model->removeSelected(); // removed when changing back to insertion mode
 }
 
 void Controller::Undo() {
@@ -73,13 +75,13 @@ void ShapesModel::select(int px, int py) {
 	}
 	for (auto i = listShapes.rbegin(); i != listShapes.rend(); i++) {
 		if ((*i)->isPointInside(px, py)) {
-			cout << "point is inside a rectangle" << endl;
+			cout << "selected inside a rectangle" << endl;
 			selected = *i;
 			(*i)->selectedColorChange();
 			return;
 		}
 	}
-	cout << selected << endl;
+	cout << "selected outside of any shape" << endl;
 }
 
 Shape* ShapesModel::getSelected() {

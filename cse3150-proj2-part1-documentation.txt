@@ -1,0 +1,34 @@
+To compile:
+g++ ECGraphicViewImp.cpp test-gv.cpp Command.cpp ShapesModel.cpp Shape.cpp ECRealObserver.cpp MouseFunction.cpp -lallegro -lallegro_font -lallegro_primitives -lallegro_main -lallegro_image -lallegro_main -o editor
+
+To run:
+./editor
+
+Features Implemented:
+Edit Mode:
+- opens by default
+- allows user to select shapes that have been drawn
+- clicking inside a shape makes it selected
+- if there are multiple shapes in the same area, then the most recently placed shape gets selected
+- once a shape is selected, it can be moved across the screen
+- when a user keeps their mouse held down after selecting a shape, they can move the shape; the original shape maintains its place, but a new cyan shape is shown moving with the user's cursor; once the cursor is released, the original selected shape is moved to match the new position.
+
+Switching modes:
+- user can press space to toggle between modes
+
+Insert Mode:
+- when clicking the mouse and holding down, when user moves cursor, a pink shape is shown on screen that adjusts size with the user's mouse
+- when releasing the mouse, the shape is placed with opposite corners at the original mouse down event location and the mouse up event location
+
+Deleting:
+- user can delete shapes with the "D" key
+
+Undo/Redo:
+- user can undo/redo any command (insert, delete, move) with "Z"/"Y" keys respectively
+
+This design uses MVC, Command Pattern, and Observer Pattern.
+
+Bugs: There are no known bugs at present.
+
+Screenshots are attached separately in submission.
+

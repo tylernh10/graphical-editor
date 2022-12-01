@@ -11,9 +11,9 @@ class ECAbstractMouseFunction {
 public: 
 	ECAbstractMouseFunction(ECGraphicViewImp& view, Controller& ctrl): view(view), ctrl(ctrl) {}
 	virtual ~ECAbstractMouseFunction() {}
-	virtual void mouseDown() {}
-	virtual void mouseUp() {}
-	virtual void timer() {}
+	virtual void mouseDown() = 0;
+	virtual void mouseUp() = 0;
+	virtual void timer() = 0;
 	void saveCursorPosition();
 protected:
 	ECGraphicViewImp& view;
