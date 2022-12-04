@@ -52,7 +52,11 @@ enum ECGVEventType
     ECGV_EV_KEY_UP_SPACE = 21,
     ECGV_EV_KEY_DOWN_SPACE = 22,
     ECGV_EV_KEY_DOWN_G = 23,
-    ECGV_EV_KEY_UP_G = 24
+    ECGV_EV_KEY_UP_G = 24,
+    ECGV_EV_KEY_DOWN_F = 25,
+    ECGV_EV_KEY_UP_F = 26,
+    ECGV_EV_KEY_DOWN_CTRL = 27,
+    ECGV_EV_KEY_UP_CTRL = 28
 };
 
 //***********************************************************
@@ -86,7 +90,7 @@ public:
     int GetThickness() const { return thickness; }
     void SetColor(ECGVColor c) { color = c; }
     ECGVColor GetColor() const { return color; }
-    
+
 private:
     int thickness;
     ECGVColor color;
@@ -109,60 +113,60 @@ class ECGraphicViewImp : public ECObserverSubject
 public:
     ECGraphicViewImp(int width, int height);
     virtual ~ECGraphicViewImp();
-    
+
     // Show the view. This would enter a forever loop, until quit is set. To do things you want to do, implement code for event handling
     void Show();
-    
+
     // Set flag to redraw (or not). Invoke SetRedraw(true) after you make changes to the view
     void SetRedraw(bool f) { fRedraw = f; }
-    
+
     // Access view properties
     int GetWith() const { return widthView; }
     int GetHeight() const { return heightView; }
-    
+
     // Get cursor position (cx, cy)
-    void GetCursorPosition(int &cx, int &cy) const;
-    
+    void GetCursorPosition(int& cx, int& cy) const;
+
     // The current event
     ECGVEventType GetCurrEvent() const { return evtCurrent; }
-    
+
     // Drawing functions
-    void DrawLine(int x1, int y1, int x2, int y2, int thickness=3, ECGVColor color=ECGV_BLACK);
-    void DrawRectangle(int x1, int y1, int x2, int y2, int thickness=3, ECGVColor color=ECGV_BLACK);
-    void DrawFilledRectangle(int x1, int y1, int x2, int y2, ECGVColor color=ECGV_BLACK);
-    void DrawCircle(int xcenter, int ycenter, double radius, int thickness=3, ECGVColor color=ECGV_BLACK);
-    void DrawFilledCircle(int xcenter, int ycenter, double radius, ECGVColor color=ECGV_BLACK);
-    void DrawEllipse(int xcenter, int ycenter, double radiusx, double radiusy, int thickness=3, ECGVColor color=ECGV_BLACK);
-    void DrawFilledEllipse(int xcenter, int ycenter, double radiusx, double radiusy, ECGVColor color=ECGV_BLACK);
-    
+    void DrawLine(int x1, int y1, int x2, int y2, int thickness = 3, ECGVColor color = ECGV_BLACK);
+    void DrawRectangle(int x1, int y1, int x2, int y2, int thickness = 3, ECGVColor color = ECGV_BLACK);
+    void DrawFilledRectangle(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK);
+    void DrawCircle(int xcenter, int ycenter, double radius, int thickness = 3, ECGVColor color = ECGV_BLACK);
+    void DrawFilledCircle(int xcenter, int ycenter, double radius, ECGVColor color = ECGV_BLACK);
+    void DrawEllipse(int xcenter, int ycenter, double radiusx, double radiusy, int thickness = 3, ECGVColor color = ECGV_BLACK);
+    void DrawFilledEllipse(int xcenter, int ycenter, double radiusx, double radiusy, ECGVColor color = ECGV_BLACK);
+
 private:
     // Internal functions
     // Initialize and reset view
     void Init();
     void Shutdown();
-    
+
     // View utiltiles
     void RenderStart();
     void RenderEnd();
-    
+
     // Process event
     ECGVEventType  WaitForEvent();
-    
+
     // data members
     // size of view
     int widthView;
     int heightView;
-    
+
     // whether to redraw or not
     bool fRedraw;
-    
+
     // keep track of what happened to view
     ECGVEventType evtCurrent;
-    
+
     // allegro stuff
-    ALLEGRO_DISPLAY *display;
-    ALLEGRO_EVENT_QUEUE *event_queue;
-    ALLEGRO_TIMER *timer;
+    ALLEGRO_DISPLAY* display;
+    ALLEGRO_EVENT_QUEUE* event_queue;
+    ALLEGRO_TIMER* timer;
 };
 
 #endif /* ECGraphicViewImp_h */

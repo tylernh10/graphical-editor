@@ -21,6 +21,8 @@ int real_main(int argc, char **argv)
   ECDrawObserver* DrawObserver = new ECDrawObserver(view, ctrl);
   ECDObserver* DelObserver = new ECDObserver(view, ctrl);
   ECUndoRedoObserver* UndoRedoObserver = new ECUndoRedoObserver(view, ctrl);
+  ECGObserver* GKeyObserver = new ECGObserver(view, ctrl);
+  ECFObserver* FKeyObserver = new ECFObserver(view, ctrl);
 
   // Mouse Observers Init
   InsertModeMouseFunction insertMouseFunctionality(view, ctrl);
@@ -33,6 +35,8 @@ int real_main(int argc, char **argv)
   view.Attach(DrawObserver);
   view.Attach(DelObserver);
   view.Attach(UndoRedoObserver);
+  view.Attach(GKeyObserver);
+  view.Attach(FKeyObserver);
   view.Attach(EditModeMouseObserver);
   view.Attach(InsertModeMouseObserver);
 
@@ -45,6 +49,8 @@ int real_main(int argc, char **argv)
   delete DelObserver;
   delete UndoRedoObserver;
   delete EditModeMouseObserver;
+  delete GKeyObserver;
+  delete FKeyObserver;
   delete InsertModeMouseObserver;
   delete model;
   

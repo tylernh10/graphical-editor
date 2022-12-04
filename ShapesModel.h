@@ -54,8 +54,20 @@ public:
 
 	// modifying shapes
 	void insertRectangle(int x2, int y2); // insert a rectangle
+	void insertEllipse(int x2, int y2); // insert an ellipse
+	void insertFilledRectangle(int x2, int y2);
+	void insertFilledEllipse(int x2, int y2);
+
 	void deleteShape(); // delete selected shape
 	void moveShape(int translateX, int translateY); // move shape to new position based on translation
+
+	// G key pressed
+	bool isGAsserted() { return gIsAsserted; }
+	void pressGKey() { gIsAsserted = !gIsAsserted; }
+
+	// F key pressed
+	bool isFAsserted() { return fIsAsserted; }
+	void pressFKey() { fIsAsserted = !fIsAsserted; }
 
 	// undo/redo operations
 	void Undo();
@@ -70,6 +82,9 @@ private:
 
 	bool mouseDown; // true if mouse is clicked (down)
 	bool hasMouseBeenPressed; // true if mouse has been pressed since switching modes
+
+	bool gIsAsserted; // true if user has pressed the "G" key (indicates whether to insert rectangle or ellipse)
+	bool fIsAsserted; // true if user has pressed the "F" key (indicates whether to insert a filled shape or not)
 };
 
 #endif

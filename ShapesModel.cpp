@@ -2,7 +2,7 @@
 
 
 // Controller
-Controller :: Controller(ShapesModel* model) : model(model), mode(0) {
+Controller :: Controller(ShapesModel* model) : model(model), mode(0), gIsAsserted(false) {
 	history = new ECCommandHistory;
 }
 
@@ -10,6 +10,24 @@ void Controller :: insertRectangle(int x2, int y2) {
 	InsertShape* c = new InsertShape(mouseDownX, mouseDownY, x2, y2, model);
 	history->ExecuteCmd(c);
 	cout << "rectangle inserted" << endl;
+}
+
+void Controller::insertEllipse(int x2, int y2) {
+	InsertShape* c = new InsertShape(mouseDownX, mouseDownY, x2, y2, model, 1);
+	history->ExecuteCmd(c);
+	cout << "ellipse inserted" << endl;
+}
+
+void Controller::insertFilledRectangle(int x2, int y2) {
+	InsertShape* c = new InsertShape(mouseDownX, mouseDownY, x2, y2, model, 2);
+	history->ExecuteCmd(c);
+	cout << "filled rectangle inserted" << endl;
+}
+
+void Controller::insertFilledEllipse(int x2, int y2) {
+	InsertShape* c = new InsertShape(mouseDownX, mouseDownY, x2, y2, model, 3);
+	history->ExecuteCmd(c);
+	cout << "filled ellipse inserted" << endl;
 }
 
 void Controller::deleteShape() {

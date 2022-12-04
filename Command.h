@@ -22,9 +22,7 @@ protected:
 // maybe make this insert rectangle --> eventually edit to support adding different types of shapes
 class InsertShape : public ECCommand {
 public:
-    InsertShape(int x1, int y1, int x2, int y2, ShapesModel* model) : ECCommand(model) {
-        s = new Rectangle(x1, y1, x2, y2);
-    }
+    InsertShape(int x1, int y1, int x2, int y2, ShapesModel* model, int type = 0);
     virtual ~InsertShape() { delete s; }
     virtual void Execute() override;
     virtual void UnExecute() override;

@@ -79,4 +79,31 @@ private:
     Controller& ctrl;
 };
 
+// G Key Observer
+// Toggles rectangle and ellipse insertion when in insert mode
+// Groups/ungroups when in edit mode
+class ECGObserver : public ECObserver
+{
+public:
+    ECGObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
+    virtual ~ECGObserver() {}
+    virtual void Update();
+private:
+    ECGraphicViewImp& view;
+    Controller& ctrl;
+};
+
+// F Key Observer
+// Toggles filled and non-filled mode
+class ECFObserver : public ECObserver
+{
+public:
+    ECFObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
+    virtual ~ECFObserver() {}
+    virtual void Update();
+private:
+    ECGraphicViewImp& view;
+    Controller& ctrl;
+};
+
 #endif
