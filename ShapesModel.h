@@ -21,6 +21,9 @@ public:
 	void select(int px, int py, bool ctrlIsAsserted);
 	vector<Shape*> getSelected(); // return currently selected shape
 	void removeSelected(); // clears selected vector; deselects any shape that is selected
+	Shape* createRectangle(int filled); // returns a Rectangle* based on the parameters specified
+	Shape* createEllipse(int filled); // returns an Ellipse* based on the parameters specified
+	Shape* loadCompositeShape(vector<Shape*> s); // takes a list of Shape*, creates and returns a CompositeShape*
 
 private:
 	vector<Shape*> listShapes;

@@ -6,11 +6,36 @@
 #include "ShapesModel.h"
 #include "MouseFunction.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 // Test graphical view code
 int real_main(int argc, char** argv)
 {
+    // file input
+    if (argc > 1) {
+        ifstream f(argv[1]);
+        string data;
+        if (f.is_open()) {
+            while (getline(f, data)) {
+                vector<int> x;
+                stringstream ss(data);
+                string word;
+                while (ss >> word) {
+                    int y = stoi(word);
+                    x.push_back(y);
+                }
+                // cout << x.size() << endl;
+                for (int i: x) {
+                    cout << i << ", ";
+                }
+                cout << endl;
+            }
+        }
+        f.close();
+    }
+    
     const int widthWin = 1000, heightWin = 1000;
     ECGraphicViewImp view(widthWin, heightWin);
     ShapesModel* model = new ShapesModel;
