@@ -31,22 +31,33 @@ void EditModeMouseFunction::mouseUp() {
     view.SetRedraw(true);
 }
 void EditModeMouseFunction::timer() {
+    // if the mouse is down: show all selected items in a cyan color as they move
     if (ctrl.getMouseDown()) {
         int curX, curY;
         view.GetCursorPosition(curX, curY);
         int translateX = curX - ctrl.getX();
         int translateY = curY - ctrl.getY();
-        Shape* s = ctrl.getSelected();
-        if (s != NULL) {
-            if (s->getType() % 2 == 0) {
-                view.DrawRectangle(s->getX1() + translateX, s->getY1() + translateY, s->getX2() + translateX, s->getY2() + translateY, 3, ECGV_CYAN);
-            }
-            else {
-                Ellipse* e = dynamic_cast<Ellipse*>(s);
-                view.DrawEllipse(e->getXCenter() + translateX, e->getYCenter() + translateY, e->getXRadius(), e->getYRadius(), 3, ECGV_CYAN);
-            }
+        vector <Shape*> s = ctrl.getSelected();
+        if (!s.empty()) {
+            mouseDownDrawWhileMoving(translateX, translateY, s);
         }
         view.SetRedraw(true);
+    }
+}
+
+void EditModeMouseFunction::mouseDownDrawWhileMoving(int translateX, int translateY, vector<Shape*> s) {
+    for (auto i : s) {
+        if (i->getType() == 0 || i->getType() == 2) {
+            view.DrawRectangle(i->getX1() + translateX, i->getY1() + translateY, i->getX2() + translateX, i->getY2() + translateY, 3, ECGV_CYAN);
+        }
+        else if (i->getType() == 1 || i->getType() == 3) {
+            Ellipse* e = dynamic_cast<Ellipse*>(i);
+            view.DrawEllipse(e->getXCenter() + translateX, e->getYCenter() + translateY, e->getXRadius(), e->getYRadius(), 3, ECGV_CYAN);
+        }
+        else {
+            CompositeShape* c = dynamic_cast<CompositeShape*>(i);
+            mouseDownDrawWhileMoving(translateX, translateY, c->getShapes());
+        }
     }
 }
 
@@ -65,8 +76,10 @@ void InsertModeMouseFunction::mouseUp() {
         int curX, curY;
         view.GetCursorPosition(curX, curY);
         // check for mode and insert ellipse when necessary
-        if (!ctrl.isGAsserted()) ctrl.insertRectangle(curX, curY);
-        else ctrl.insertEllipse(curX, curY);
+        if (!ctrl.isGAsserted() && !ctrl.isFAsserted()) ctrl.insertRectangle(curX, curY);
+        else if (!ctrl.isGAsserted() && ctrl.isFAsserted()) ctrl.insertFilledRectangle(curX, curY);
+        else if (ctrl.isGAsserted() && !ctrl.isFAsserted()) ctrl.insertEllipse(curX, curY);
+        else if (ctrl.isGAsserted() && ctrl.isFAsserted()) ctrl.insertFilledEllipse(curX, curY);
         view.SetRedraw(true);
     }
 }

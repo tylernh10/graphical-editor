@@ -4,6 +4,7 @@
 #include "Shape.h"
 #include "Command.h"
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 class ECCommandHistory; // necessary forward declaration
@@ -14,16 +15,16 @@ public:
 	vector<Shape*> getListShapes() { return listShapes; }
 	void addShape(Shape* x) { listShapes.push_back(x); }
 	void removeShape(Shape* x);
-	void moveShape(int x1, int y1, int x2, int y2, Shape* x);
+	void moveShape(int translateX, int translateY, Shape* x);
 	
 	// selection
-	void select(int px, int py);
-	Shape* getSelected(); // return currently selected shape
-	void removeSelected(); // sets selected variable to null; deselects any shape that is selected
+	void select(int px, int py, bool ctrlIsAsserted);
+	vector<Shape*> getSelected(); // return currently selected shape
+	void removeSelected(); // clears selected vector; deselects any shape that is selected
 
 private:
 	vector<Shape*> listShapes;
-	Shape* selected = NULL;
+	vector<Shape*> selected;
 };
 
 class Controller {
@@ -49,8 +50,8 @@ public:
 	int getMode() { return mode; }
 
 	// selection
-	void select(int px, int py) { model->select(px, py); } // attempts to select a shape at the given coordinates
-	Shape* getSelected() { return model->getSelected(); }
+	void select(int px, int py) { model->select(px, py, ctrlIsPressed); } // attempts to select a shape at the given coordinates
+	vector<Shape*> getSelected() { return model->getSelected(); }
 
 	// modifying shapes
 	void insertRectangle(int x2, int y2); // insert a rectangle
@@ -69,6 +70,22 @@ public:
 	bool isFAsserted() { return fIsAsserted; }
 	void pressFKey() { fIsAsserted = !fIsAsserted; }
 
+	// Reset F and G assertions to false when switching modes
+	void resetFandGAssertions();
+
+	// Ctrl key pressed
+	bool isCtrlAsserted() { return ctrlIsPressed; }
+	void pressCtrlKey() { ctrlIsPressed = !ctrlIsPressed; }
+
+	// Arrow keys pressed
+	void pressUpArrow();
+	void pressDownArrow();
+	void pressLeftArrow();
+	void pressRightArrow();
+
+	// G key in edit mode
+	void pressGKeyEditMode();
+
 	// undo/redo operations
 	void Undo();
 	void Redo();
@@ -85,6 +102,8 @@ private:
 
 	bool gIsAsserted; // true if user has pressed the "G" key (indicates whether to insert rectangle or ellipse)
 	bool fIsAsserted; // true if user has pressed the "F" key (indicates whether to insert a filled shape or not)
+
+	bool ctrlIsPressed; // true if ctrl is curently pressed down
 };
 
 #endif

@@ -106,4 +106,58 @@ private:
     Controller& ctrl;
 };
 
+// CTRL Key Observer
+// Allows multiple shapes to be selected at once when pressed
+class ECCtrlObserver : public ECObserver
+{
+public:
+    ECCtrlObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
+    virtual ~ECCtrlObserver() {}
+    virtual void Update();
+private:
+    ECGraphicViewImp& view;
+    Controller& ctrl;
+};
+
+// Arrow Key Observers
+// When pressed, they move all selected shapes 10 by the direction specified by the key pressed
+class ECGenericArrowObserver : public ECObserver
+{
+public:
+    ECGenericArrowObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
+    virtual ~ECGenericArrowObserver() {}
+    virtual void Update() = 0;
+protected:
+    ECGraphicViewImp& view;
+    Controller& ctrl;
+};
+
+class ECUpArrowObserver : public ECGenericArrowObserver {
+public:
+    ECUpArrowObserver(ECGraphicViewImp& view, Controller& ctrl): ECGenericArrowObserver(view, ctrl) {}
+    virtual ~ECUpArrowObserver() {}
+    virtual void Update();
+};
+
+class ECDownArrowObserver : public ECGenericArrowObserver {
+public:
+    ECDownArrowObserver(ECGraphicViewImp& view, Controller& ctrl) : ECGenericArrowObserver(view, ctrl) {}
+    virtual ~ECDownArrowObserver() {}
+    virtual void Update();
+};
+
+class ECLeftArrowObserver : public ECGenericArrowObserver {
+public:
+    ECLeftArrowObserver(ECGraphicViewImp& view, Controller& ctrl) : ECGenericArrowObserver(view, ctrl) {}
+    virtual ~ECLeftArrowObserver() {}
+    virtual void Update();
+};
+
+class ECRightArrowObserver : public ECGenericArrowObserver {
+public:
+    ECRightArrowObserver(ECGraphicViewImp& view, Controller& ctrl) : ECGenericArrowObserver(view, ctrl) {}
+    virtual ~ECRightArrowObserver() {}
+    virtual void Update();
+};
+
 #endif

@@ -19,7 +19,7 @@ protected:
     ShapesModel* model; // holds model referenced
 };
 
-// maybe make this insert rectangle --> eventually edit to support adding different types of shapes
+// inserts a new shape in model based on type specified in call
 class InsertShape : public ECCommand {
 public:
     InsertShape(int x1, int y1, int x2, int y2, ShapesModel* model, int type = 0);
@@ -30,26 +30,50 @@ private:
     Shape* s;
 };
 
+// deletes all shapes passed in
 class DeleteShape : public ECCommand {
 public:    
-    DeleteShape(Shape * s, ShapesModel* model): s(s), ECCommand(model) {}
+    DeleteShape(vector<Shape*> s, ShapesModel* model): s(s), ECCommand(model) {}
     virtual ~DeleteShape() {}
     virtual void Execute() override;
     virtual void UnExecute() override;
 private:
-    Shape* s;
+    vector<Shape*> s;
 };
 
+// moves all shapes passed in
 class MoveShape : public ECCommand {
 public:    
-    MoveShape(int translateX, int translateY, Shape * s, ShapesModel * model): translateX(translateX), translateY(translateY), s(s), ECCommand(model) {}
+    MoveShape(int translateX, int translateY, vector<Shape*> s, ShapesModel * model): translateX(translateX), translateY(translateY), s(s), ECCommand(model) {}
     virtual ~MoveShape() {}
     virtual void Execute() override;
     virtual void UnExecute() override;
 private:
     int translateX;
     int translateY;
-    Shape* s;
+    vector<Shape*> s;
+};
+
+class Group : public ECCommand {
+public:
+    Group(vector<Shape*> s, ShapesModel* model);
+    virtual ~Group() {}
+    virtual void Execute() override;
+    virtual void UnExecute() override;
+private:
+    vector<Shape*> s;
+    CompositeShape* c;
+};
+
+class Ungroup : public ECCommand {
+public:
+    Ungroup(CompositeShape* c, ShapesModel * model): c(c), s(c->getShapes()), ECCommand(model) {}
+    virtual ~Ungroup() {}
+    virtual void Execute() override;
+    virtual void UnExecute() override;
+private:
+    vector<Shape*> s;
+    CompositeShape* c;
 };
 
 class ECCommandHistory {

@@ -10,7 +10,7 @@ InsertShape :: InsertShape(int x1, int y1, int x2, int y2, ShapesModel* model, i
 }
 
 void InsertShape::Execute() {
-	// adds shape to model
+	// adds shapes to model
 	model->addShape(s);
 }
 
@@ -20,22 +20,64 @@ void InsertShape::UnExecute() {
 
 // delete command
 void DeleteShape::Execute() {
-	model->removeShape(s);
+	for (auto i : s) {
+		model->removeShape(i);
+	}
 }
 
 void DeleteShape::UnExecute() {
-	model->addShape(s);
+	for (auto i : s) {
+		model->addShape(i);
+	}
 }
 
 // move command
 void MoveShape::Execute() {
-	model->moveShape(s->getX1() + translateX, s->getY1() + translateY, s->getX2() + translateX, s->getY2() + translateY, s);
+	for (auto i : s) {
+		model->moveShape(translateX, translateY, i);
+	}
 }
 
 void MoveShape::UnExecute() {
-	model->moveShape(s->getX1() - translateX, s->getY1() - translateY, s->getX2() - translateX, s->getY2() - translateY, s);
+	for (auto i : s) {
+		model->moveShape(-translateX, -translateY, i);
+	}
 }
 
+// group command
+Group::Group(vector<Shape*> s, ShapesModel* model) : s(s), ECCommand(model) {
+	//int maxX = s.at(0)->getX1();
+	c = new CompositeShape(0, 0, 0, 0, s);
+	// ****** FIX THIS
+}
+
+void Group::Execute() {
+	for (auto i : s) {
+		model->removeShape(i);
+	}
+	model->addShape(c);
+}
+
+void Group::UnExecute() {
+	model->removeShape(c);
+	for (auto i : c->getShapes()) {
+		model->addShape(i);
+	}
+}
+
+void Ungroup::Execute() {
+	model->removeShape(c);
+	for (auto i : c->getShapes()) {
+		model->addShape(i);
+	}
+}
+
+void Ungroup::UnExecute() {
+	for (auto i : s) {
+		model->removeShape(i);
+	}
+	model->addShape(c);
+}
 
 // command history
 ECCommandHistory::~ECCommandHistory() {

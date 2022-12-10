@@ -26,6 +26,7 @@ public:
 	EditModeMouseFunction(ECGraphicViewImp& view, Controller& ctrl) : ECAbstractMouseFunction(view, ctrl) {}
 	virtual ~EditModeMouseFunction() {}
 	virtual void mouseDown();
+	virtual void mouseDownDrawWhileMoving(int translateX, int translateY, vector <Shape*> s);
 	virtual void mouseUp();
 	virtual void timer();
 };
