@@ -56,7 +56,7 @@ void EditModeMouseFunction::mouseDownDrawWhileMoving(int translateX, int transla
         }
         else {
             CompositeShape* c = dynamic_cast<CompositeShape*>(i);
-            mouseDownDrawWhileMoving(translateX, translateY, c->getShapes());
+            mouseDownDrawWhileMoving(translateX, translateY, c->getShapes()); // if composite shape, recursively call this function on its children
         }
     }
 }
