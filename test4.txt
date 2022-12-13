@@ -1,0 +1,7 @@
+6
+rectangle
+rectangle
+rectangle
+1 743 460 43 38 0
+1 547 331 58.5 43.5 0
+3 707 282 56 49 0

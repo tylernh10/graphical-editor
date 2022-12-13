@@ -1,5 +1,6 @@
 #include "Shape.h"
 #include <cmath>
+#include <fstream>
 using namespace std;
 
 // shape
@@ -89,5 +90,51 @@ void CompositeShape::unselectedColorChange() {
 void CompositeShape::Draw(ECGraphicViewImp& view) const {
 	for (auto i : s) {
 		i->Draw(view);
+	}
+}
+
+// writing to file
+void Rectangle::writeShape(ofstream& f) const {
+	f << 0 << " ";
+	f << 4 << " ";
+	f << getX1() << " " << getY1() << " ";
+	f << getX1() << " " << getY2() << " ";
+	f << getX2() << " " << getY2() << " ";
+	f << getX2() << " " << getY1() << " ";
+	f << getColor() << endl;
+}
+
+void FilledRectangle::writeShape(ofstream& f) const {
+	f << 2 << " ";
+	f << 4 << " ";
+	f << getX1() << " " << getY1() << " ";
+	f << getX1() << " " << getY2() << " ";
+	f << getX2() << " " << getY2() << " ";
+	f << getX2() << " " << getY1() << " ";
+	f << getColor() << endl;
+}
+
+void Ellipse::writeShape(ofstream& f) const {
+	f << 1 << " ";
+	f << xCenter << " ";
+	f << yCenter << " ";
+	f << xRadius << " ";
+	f << yRadius << " ";
+	f << getColor() << endl;
+}
+
+void FilledEllipse::writeShape(ofstream& f) const {
+	f << 3 << " ";
+	f << xCenter << " ";
+	f << yCenter << " ";
+	f << xRadius << " ";
+	f << yRadius << " ";
+	f << getColor() << endl;
+}
+ 
+void CompositeShape::writeShape(ofstream& f) const {
+	f << "4 " << getShapes().size() << endl;
+	for (auto i: getShapes()) {
+		i->writeShape(f);
 	}
 }

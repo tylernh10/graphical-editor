@@ -131,10 +131,10 @@ void ShapesModel::loadComposite(CompositeShape* c) {
 
 Rectangle* ShapesModel::loadRectangle(vector<int> info) {
 	if (info.at(0) == 0) {
-		Rectangle* r = new Rectangle(info.at(2), info.at(3), info.at(5), info.at(6), parseColor(info.at(10)));
+		Rectangle* r = new Rectangle(info.at(2), info.at(3), info.at(6), info.at(7), parseColor(info.at(10)));
 		return r;
 	} else {
-		FilledRectangle* f = new FilledRectangle(info.at(2), info.at(3), info.at(5), info.at(6), parseColor(info.at(10)));
+		FilledRectangle* f = new FilledRectangle(info.at(2), info.at(3), info.at(6), info.at(7), parseColor(info.at(10)));
 		return f;
 	}
 }

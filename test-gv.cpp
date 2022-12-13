@@ -33,6 +33,20 @@ CompositeShape* parseComposite(int numMembers, ifstream& f, ShapesModel* model) 
     return c;
 }
 
+void writeShape(Shape* s, ofstream& f) {
+    if (s->getType() == 0) {
+
+    } else if (s->getType() == 1) {
+
+    } else if (s->getType() == 2) {
+
+    } else if (s->getType() == 3) {
+
+    } else if (s->getType() == 4) {
+
+    }
+}
+
 // Test graphical view code
 int real_main(int argc, char** argv)
 {
@@ -103,7 +117,14 @@ int real_main(int argc, char** argv)
     // Run application
     view.Show();
 
-    cout << "after show" << endl;
+    if (argc == 2) {
+        ofstream f(argv[1]);
+        f << model->getListShapes().size() << endl;
+        for (auto i: model->getListShapes()) {
+            i->writeShape(f);
+        }
+        f.close();
+    }
 
     // Deallocate pointers
     delete SpaceObserver;

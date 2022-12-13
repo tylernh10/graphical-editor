@@ -23,7 +23,11 @@ public:
 	virtual void Draw(ECGraphicViewImp& view) const = 0;
 	virtual void selectedColorChange() { attributes.SetColor(ECGV_BLUE); }
 	virtual void unselectedColorChange() { attributes.SetColor(color); }
+	virtual void writeShape(ofstream& f) const = 0;
 	int getType() { return type; }
+	ECGVColor getColor() const {
+		return color;
+	}
 private:
 	ECDrawiingContext attributes;
 	int x1; // corner 1 x value
@@ -39,11 +43,13 @@ public:
 	Rectangle(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK, int type=0): Shape(x1, y1, x2, y2, color, 0) {}
 	virtual bool isPointInside(int px, int py) const override;
 	virtual void Draw(ECGraphicViewImp& view) const override;
+	virtual void writeShape(ofstream& f) const override;
 };
 class FilledRectangle : public Rectangle {
 public:
 	FilledRectangle(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK) : Rectangle(x1, y1, x2, y2, color, 2) {}
 	virtual void Draw(ECGraphicViewImp& view) const override;
+	virtual void writeShape(ofstream& f) const override;
 };
 
 class Ellipse : public Shape {
@@ -56,7 +62,8 @@ public:
 	double getXRadius() const { return xRadius; }
 	double getYRadius() const { return yRadius; }
 	virtual void setNewPosition(int translateX, int translateY) override;
-private:
+	virtual void writeShape(ofstream& f) const override;
+protected:
 	int xCenter;
 	int yCenter;
 	double xRadius;
@@ -67,6 +74,7 @@ class FilledEllipse : public Ellipse {
 public:
 	FilledEllipse(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK): Ellipse(x1, y1, x2, y2, color, 3) {}
 	virtual void Draw(ECGraphicViewImp& view) const override;
+	virtual void writeShape(ofstream& f) const override;
 };
 
 class CompositeShape : public Shape {
@@ -78,6 +86,7 @@ public:
 	void setNewPosition(int tranlateX, int translateY) override;
 	void selectedColorChange() override;
 	void unselectedColorChange() override;
+	virtual void writeShape(ofstream& f) const override;
 private:
 	vector<Shape*> s;
 };
