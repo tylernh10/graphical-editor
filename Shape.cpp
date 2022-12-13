@@ -118,8 +118,8 @@ void Ellipse::writeShape(ofstream& f) const {
 	f << 1 << " ";
 	f << xCenter << " ";
 	f << yCenter << " ";
-	f << xRadius << " ";
-	f << yRadius << " ";
+	f << (int)xRadius << " ";
+	f << (int)yRadius << " ";
 	f << getColor() << endl;
 }
 
@@ -127,8 +127,8 @@ void FilledEllipse::writeShape(ofstream& f) const {
 	f << 3 << " ";
 	f << xCenter << " ";
 	f << yCenter << " ";
-	f << xRadius << " ";
-	f << yRadius << " ";
+	f << (int)xRadius << " ";
+	f << (int)yRadius << " ";
 	f << getColor() << endl;
 }
  
