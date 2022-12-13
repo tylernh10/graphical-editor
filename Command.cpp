@@ -46,9 +46,7 @@ void MoveShape::UnExecute() {
 
 // group command
 Group::Group(vector<Shape*> s, ShapesModel* model) : s(s), ECCommand(model) {
-	//int maxX = s.at(0)->getX1();
-	c = new CompositeShape(0, 0, 0, 0, s);
-	// ****** FIX THIS
+	c = new CompositeShape(s);
 }
 
 void Group::Execute() {

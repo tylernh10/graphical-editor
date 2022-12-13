@@ -5,15 +5,43 @@
 #include "ECRealObserver.h"
 #include "ShapesModel.h"
 #include "MouseFunction.h"
+#include "Shape.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 using namespace std;
 
+CompositeShape* parseComposite(int numMembers, ifstream& f, ShapesModel* model) {
+    vector<Shape*> shapes;
+    while (shapes.size() < numMembers) {
+        vector<int> x;
+        string data;
+        getline(f, data);
+        stringstream ss(data);
+        string word;
+        while (ss >> word) {
+            int y = stoi(word);
+            x.push_back(y);
+        }
+        if (x.size() == 2) {
+            shapes.push_back(parseComposite(x.at(1), f, model));
+        } else if (x.size() > 2) {
+            shapes.push_back(model->loadShape(x));
+        }
+    }
+    CompositeShape* c = new CompositeShape(shapes);
+    return c;
+}
+
 // Test graphical view code
 int real_main(int argc, char** argv)
 {
-    // file input
+    const int widthWin = 1000, heightWin = 1000;
+    ECGraphicViewImp view(widthWin, heightWin);
+    ShapesModel* model = new ShapesModel;
+    Controller ctrl(model);
+
+        // file input
     if (argc > 1) {
         ifstream f(argv[1]);
         string data;
@@ -26,20 +54,17 @@ int real_main(int argc, char** argv)
                     int y = stoi(word);
                     x.push_back(y);
                 }
-                // cout << x.size() << endl;
-                for (int i: x) {
-                    cout << i << ", ";
+                if (x.size() == 2) {
+                    model->loadComposite(parseComposite(x.at(1), f, model));
+                } else if (x.size() > 2) {
+                    model->parseAtomic(x);
                 }
-                cout << endl;
             }
         }
         f.close();
     }
-    
-    const int widthWin = 1000, heightWin = 1000;
-    ECGraphicViewImp view(widthWin, heightWin);
-    ShapesModel* model = new ShapesModel;
-    Controller ctrl(model);
+
+    // cout << model->getListShapes().size() << endl; // returns 0
 
     // Creating observers
     ECSpaceObserver* SpaceObserver = new ECSpaceObserver(view, ctrl);
@@ -77,6 +102,8 @@ int real_main(int argc, char** argv)
 
     // Run application
     view.Show();
+
+    cout << "after show" << endl;
 
     // Deallocate pointers
     delete SpaceObserver;

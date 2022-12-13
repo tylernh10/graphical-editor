@@ -116,6 +116,63 @@ void ShapesModel::moveShape(int translateX, int translateY, Shape* x) {
 	}
 }
 
+// parsing and loading operations
+void ShapesModel::parseAtomic(vector<int> info) {
+	if (info.at(0) % 2 == 0) {
+		addShape(loadRectangle(info));
+	} else {
+		addShape(loadEllipse(info));
+	}
+}
+
+void ShapesModel::loadComposite(CompositeShape* c) {
+	addShape(c);
+}
+
+Rectangle* ShapesModel::loadRectangle(vector<int> info) {
+	if (info.at(0) == 0) {
+		Rectangle* r = new Rectangle(info.at(2), info.at(3), info.at(5), info.at(6), parseColor(info.at(10)));
+		return r;
+	} else {
+		FilledRectangle* f = new FilledRectangle(info.at(2), info.at(3), info.at(5), info.at(6), parseColor(info.at(10)));
+		return f;
+	}
+}
+
+Ellipse* ShapesModel::loadEllipse(vector<int> info) {
+	int x1 = info.at(1) - info.at(3);
+	int y1 = info.at(2) - info.at(4);
+	int x2 = info.at(1) + info.at(3);
+	int y2 = info.at(2) + info.at(4);
+	if (info.at(0) == 1) {
+		Ellipse* e = new Ellipse(x1, y1, x2, y2, parseColor(info.at(5)));
+		return e;
+	} else {
+		FilledEllipse* f = new FilledEllipse(x1, y1, x2, y2, parseColor(info.at(5)));
+		return f;
+	}
+}
+
+Shape* ShapesModel::loadShape(vector<int> info) {
+	if (info.at(0) % 2 == 0) {
+		return loadRectangle(info);
+	} else {
+		return loadEllipse(info);
+	}
+}
+
+ECGVColor ShapesModel::parseColor(int x) {
+	if (x == 0) return ECGV_BLACK;
+	if (x == 1) return ECGV_WHITE;
+	if (x == 2) return ECGV_RED;
+	if (x == 3) return ECGV_GREEN;
+	if (x == 4) return ECGV_BLUE;
+	if (x == 5) return ECGV_YELLOW;
+	if (x == 6) return ECGV_PURPLE;
+	if (x == 7) return ECGV_CYAN;
+	else return ECGV_NONE;
+}
+
 
 void ShapesModel::select(int px, int py, bool ctrlIsPressed) {
 	if (!ctrlIsPressed) {

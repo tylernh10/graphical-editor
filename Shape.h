@@ -9,7 +9,9 @@ class ECGraphicViewImp;
 
 class Shape {
 public:
-	Shape(int x1, int y1, int x2, int y2, int type=0): x1(x1), y1(y1), x2(x2), y2(y2), type(type) {}
+	Shape(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK, int type=0): x1(x1), y1(y1), x2(x2), y2(y2), color(color), type(type) {
+		attributes.SetColor(color);
+	}
 	~Shape() {}
 	ECDrawiingContext getAttributes() const { return attributes; }
 	int getX1() const { return x1; }
@@ -20,7 +22,7 @@ public:
 	virtual bool isPointInside(int px, int py) const = 0;
 	virtual void Draw(ECGraphicViewImp& view) const = 0;
 	virtual void selectedColorChange() { attributes.SetColor(ECGV_BLUE); }
-	virtual void unselectedColorChange() { attributes.SetColor(ECGV_BLACK); }
+	virtual void unselectedColorChange() { attributes.SetColor(color); }
 	int getType() { return type; }
 private:
 	ECDrawiingContext attributes;
@@ -28,24 +30,25 @@ private:
 	int y1; // corner 1 y value
 	int x2; // corner 2 x value
 	int y2; // corner 2 y value
+	ECGVColor color; // holds color
 	int type; // type of shape --> 0 (rectangle) by default
 };
 
 class Rectangle : public Shape {
 public:
-	Rectangle(int x1, int y1, int x2, int y2, int type=0): Shape(x1, y1, x2, y2, type) {}
+	Rectangle(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK, int type=0): Shape(x1, y1, x2, y2, color, 0) {}
 	virtual bool isPointInside(int px, int py) const override;
 	virtual void Draw(ECGraphicViewImp& view) const override;
 };
 class FilledRectangle : public Rectangle {
 public:
-	FilledRectangle(int x1, int y1, int x2, int y2) : Rectangle(x1, y1, x2, y2, 2) {}
+	FilledRectangle(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK) : Rectangle(x1, y1, x2, y2, color, 2) {}
 	virtual void Draw(ECGraphicViewImp& view) const override;
 };
 
 class Ellipse : public Shape {
 public:
-	Ellipse(int x1, int y1, int x2, int y2, int type=1);
+	Ellipse(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK, int type=1);
 	virtual bool isPointInside(int px, int py) const override;
 	virtual void Draw(ECGraphicViewImp& view) const override;
 	int getXCenter() const { return xCenter; }
@@ -62,13 +65,13 @@ private:
 
 class FilledEllipse : public Ellipse {
 public:
-	FilledEllipse(int x1, int y1, int x2, int y2): Ellipse(x1, y1, x2, y2, 3) {}
+	FilledEllipse(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK): Ellipse(x1, y1, x2, y2, color, 3) {}
 	virtual void Draw(ECGraphicViewImp& view) const override;
 };
 
 class CompositeShape : public Shape {
 public:
-	CompositeShape(int x1, int y1, int x2, int y2, vector<Shape *> s): Shape(x1, y1, x2, y2, 4), s(s) {}
+	CompositeShape(vector<Shape *> s): Shape(0, 0, 0, 0, ECGV_BLACK, 4), s(s) {}
 	vector<Shape*> getShapes() const { return s; }
 	virtual bool isPointInside(int px, int py) const;
 	virtual void Draw(ECGraphicViewImp& view) const override;

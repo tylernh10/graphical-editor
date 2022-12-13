@@ -16,14 +16,17 @@ public:
 	void addShape(Shape* x) { listShapes.push_back(x); }
 	void removeShape(Shape* x);
 	void moveShape(int translateX, int translateY, Shape* x);
+	void parseAtomic(vector<int> info);
+	void loadComposite(CompositeShape* c);
+	Rectangle* loadRectangle(vector<int> info);
+	Ellipse* loadEllipse(vector<int> info);
+	Shape* loadShape(vector<int> info);
 	
 	// selection
 	void select(int px, int py, bool ctrlIsAsserted);
 	vector<Shape*> getSelected(); // return currently selected shape
 	void removeSelected(); // clears selected vector; deselects any shape that is selected
-	Shape* createRectangle(int filled); // returns a Rectangle* based on the parameters specified
-	Shape* createEllipse(int filled); // returns an Ellipse* based on the parameters specified
-	Shape* loadCompositeShape(vector<Shape*> s); // takes a list of Shape*, creates and returns a CompositeShape*
+	ECGVColor parseColor(int x);
 
 private:
 	vector<Shape*> listShapes;

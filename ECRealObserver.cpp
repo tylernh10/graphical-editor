@@ -15,19 +15,6 @@ void ECDrawObserver :: Update() {
     if (view.GetCurrEvent() == ECGV_EV_TIMER) {
         for (auto x : ctrl.getListShapes()) {
             x->Draw(view);
-            /*if (x->getType() == 0) view.DrawRectangle(x->getX1(), x->getY1(), x->getX2(), x->getY2(), 3, x->getAttributes().GetColor());
-            else if (x->getType() == 1) {
-                Ellipse* e = dynamic_cast<Ellipse*>(x);
-                view.DrawEllipse(e->getXCenter(), e->getYCenter(), e->getXRadius(), e->getYRadius(), 3, e->getAttributes().GetColor());
-            }
-            else if (x->getType() == 2) {
-                FilledRectangle* r = dynamic_cast<FilledRectangle*>(x);
-                view.DrawFilledRectangle(x->getX1(), x->getY1(), x->getX2(), x->getY2(), x->getAttributes().GetColor());
-            }
-            else if (x->getType() == 3) {
-                FilledEllipse* e = dynamic_cast<FilledEllipse*>(x);
-                view.DrawFilledEllipse(e->getXCenter(), e->getYCenter(), e->getXRadius(), e->getYRadius(), e->getAttributes().GetColor());
-            }*/
             view.SetRedraw(true);
         }
     }
