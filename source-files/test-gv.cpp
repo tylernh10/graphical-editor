@@ -1,11 +1,11 @@
 //
 //  Created by Yufeng Wu on 3/2/22.
 //
-#include "ECGraphicViewImp.h"
-#include "ECRealObserver.h"
-#include "ShapesModel.h"
-#include "MouseFunction.h"
-#include "Shape.h"
+#include "../header-files/ECGraphicViewImp.h"
+#include "../header-files/ECRealObserver.h"
+#include "../header-files/ShapesModel.h"
+#include "../header-files/MouseFunction.h"
+#include "../header-files/Shape.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>

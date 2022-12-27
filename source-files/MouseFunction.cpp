@@ -1,4 +1,4 @@
-#include "MouseFunction.h"
+#include "../header-files/MouseFunction.h"
 
 // ECAbstractMouseFunction
 void ECAbstractMouseFunction::saveCursorPosition()  {

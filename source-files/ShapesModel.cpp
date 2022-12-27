@@ -1,5 +1,4 @@
-#include "ShapesModel.h"
-
+#include "../header-files/ShapesModel.h"
 
 // Controller
 Controller :: Controller(ShapesModel* model) : model(model), mode(0), hasMouseBeenPressed(false), gIsAsserted(false), fIsAsserted(false), ctrlIsPressed(false) {

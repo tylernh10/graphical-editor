@@ -1,4 +1,4 @@
-#include "Command.h"
+#include "../header-files/Command.h"
 
 // insert command
 InsertShape :: InsertShape(int x1, int y1, int x2, int y2, ShapesModel* model, int type) : ECCommand(model) {

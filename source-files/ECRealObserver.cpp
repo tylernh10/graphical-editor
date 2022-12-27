@@ -1,4 +1,4 @@
-#include "ECRealObserver.h"
+#include "../header-files/ECRealObserver.h"
 
 // ECSpaceObserver
 void ECSpaceObserver :: Update() {
