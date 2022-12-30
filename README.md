@@ -34,6 +34,7 @@ There are four types of shapes that can be inserted:
 * Filled Rectangle
 * Unfilled Ellipse
 * Filled Ellipse
+
 The Unfilled Rectangle is the default shape. Pressing the "F" key once allows a filled shape to be pressed, and pressing it again goes back to unfilled mode. Pressing "G" once switches to inserting Ellipses. Pressing "G" again goes back to inserting Rectangles.
 
 ### Undo/Redo:
@@ -56,5 +57,9 @@ at a later time. The file will be created if it does not exist.
 * Documentation on shape scheme
 * Makefile for easier compilation
 * Menu onscreen allowing users to change colors of shapes, changes modes, etc.
+* Add support for users to add onscreen text
+* Allowing users to specify which file to open in the application instead of only via command line
 * Detailed documentation on design patterns used
 * Detailed description on how to install Allegro
+
+&copy; Tyler Hinrichs 2022
