@@ -9,3 +9,4 @@ allegro
 *.vcxproj.user
 *.sln
 *.json
+*.log
