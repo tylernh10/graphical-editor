@@ -45,7 +45,7 @@ void MoveShape::UnExecute() {
 }
 
 // group command
-Group::Group(vector<Shape*> s, ShapesModel* model) : s(s), ECCommand(model) {
+Group::Group(vector<Shape*>& s, ShapesModel* model) : s(s), ECCommand(model) {
 	c = new CompositeShape(s);
 }
 

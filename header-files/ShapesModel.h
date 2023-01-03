@@ -56,7 +56,7 @@ public:
 	int getMode() { return mode; }
 
 	// selection
-	void select(int px, int py) { model->select(px, py, ctrlIsPressed); } // attempts to select a shape at the given coordinates
+	void select(int px, int py); // attempts to select a shape at the given coordinates
 	vector<Shape*> getSelected() { return model->getSelected(); }
 
 	// modifying shapes

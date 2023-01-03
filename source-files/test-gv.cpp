@@ -6,6 +6,7 @@
 #include "../header-files/ShapesModel.h"
 #include "../header-files/MouseFunction.h"
 #include "../header-files/Shape.h"
+#include "../header-files/Menu.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -39,9 +40,15 @@ int real_main(int argc, char** argv)
     const int widthWin = 1000, heightWin = 1000;
     ECGraphicViewImp view(widthWin, heightWin);
     ShapesModel* model = new ShapesModel;
+    // TODO: adjust window title
     Controller ctrl(model);
+    Menu* menu = new Menu;
 
-        // file input
+    // menu init
+    ALLEGRO_BITMAP* test = al_load_bitmap("res/bordered-rectangle.jpg");
+    menu->initBackrgound(test);
+
+    // fetches and loads data from file specified via command line
     if (argc > 1) {
         ifstream f(argv[1]);
         string data;
@@ -64,11 +71,10 @@ int real_main(int argc, char** argv)
         f.close();
     }
 
-    // cout << model->getListShapes().size() << endl; // returns 0
-
     // Creating observers
     ECSpaceObserver* SpaceObserver = new ECSpaceObserver(view, ctrl);
     ECDrawObserver* DrawObserver = new ECDrawObserver(view, ctrl);
+    DrawObserver->attachMenu(menu); // attach menu
     ECDObserver* DelObserver = new ECDObserver(view, ctrl);
     ECUndoRedoObserver* UndoRedoObserver = new ECUndoRedoObserver(view, ctrl);
     ECGObserver* GKeyObserver = new ECGObserver(view, ctrl);
@@ -127,6 +133,8 @@ int real_main(int argc, char** argv)
     delete FKeyObserver;
     delete InsertModeMouseObserver;
     delete model;
+
+    // destroy allegro components
 
     return 0;
 }

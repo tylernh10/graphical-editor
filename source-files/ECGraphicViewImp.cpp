@@ -31,7 +31,7 @@ ALLEGRO_COLOR arrayAllegroColors[ECGV_NUM_COLORS] =
 
 //***********************************************************
 // A graphic view implementation
-// This is built on top of Allegro library
+// This is built on top of the Allegro library
 
 ECGraphicViewImp::ECGraphicViewImp(int width, int height) : widthView(width), heightView(height), fRedraw(false), display(NULL), timer(NULL), event_queue(NULL)
 {
@@ -42,11 +42,9 @@ ECGraphicViewImp :: ~ECGraphicViewImp()
     Shutdown();
 }
 
-// Show the view. This would enter a forever loop, until quit is set
+// Show the view. This enters an infinite loop until quit is set
 void ECGraphicViewImp::Show()
 {
-    //
-    //int cursorxDown=-100, cursoryDown=-100, cursorxUp=-100, cursoryUp=-100;
     while (true)
     {
         // get current event
@@ -66,11 +64,7 @@ void ECGraphicViewImp::Show()
         // render start
         RenderStart();
 
-        // draw something
-        //DrawRectangle(100, 100, 400, 400);
-        //SetRedraw(true);
-
-        // Notify clients
+        // notify clients
         Notify();
 
         // refresh view
@@ -82,50 +76,6 @@ void ECGraphicViewImp::Show()
                 fRedraw = false;
             }
         }
-
-#if 0
-        // handle this event: TBD
-        int cursorx, cursory;
-        GetCursorPosition(cursorx, cursory);
-        //cout << "Event: " << evt << endl;
-        if (evtCurrent == ECGV_EV_MOUSE_BUTTON_DOWN)
-        {
-            cout << "Cursor down: (" << cursorx << "," << cursory << ")\n";
-            cursorxDown = cursorx;
-            cursoryDown = cursory;
-        }
-        if (evtCurrent == ECGV_EV_MOUSE_BUTTON_UP)
-        {
-            cout << "Cursor up: (" << cursorx << "," << cursory << ")\n";
-            cursorxUp = cursorx;
-            cursoryUp = cursory;
-            fRedraw = true;
-        }
-        if (evtCurrent == ECGV_EV_MOUSE_MOVING)
-        {
-            if (cursorxDown >= 0)
-            {
-                cout << "Current cursor position: " << cursorx << "," << cursory << endl;
-                RenderStart();
-                DrawRectangle(cursorxDown, cursoryDown, cursorx, cursory, 1);
-                RenderEnd();
-            }
-        }
-        if (evtCurrent == ECGV_EV_TIMER)
-        {
-            if (fRedraw)
-            {
-                RenderStart();
-                cout << "down:(" << cursorxDown << "," << cursoryDown << ") up: (" << cursorxUp << "," << cursoryUp << ")\n";
-                //DrawLine(cursorxDown, cursoryDown, cursorxUp, cursoryUp);
-                DrawRectangle(cursorxDown, cursoryDown, cursorxUp, cursoryUp);
-                RenderEnd();
-                fRedraw = false;
-                cursorxDown = -100;
-                cursoryDown = -100;
-            }
-        }
-#endif
     }
 }
 
@@ -150,21 +100,27 @@ void ECGraphicViewImp::Init()
         cout << "failed to initialize allegro!\n";
         exit(-1);
     }
+    //cout << "allegro init done\n";
 
     if (!al_install_keyboard()) {
         cout << "failed to initialize the keyboard!\n";
         exit(-1);
     }
+    //cout << "keyboard init done\n";
 
     if (!al_install_mouse()) {
         cout << "failed to initialize the mouse!\n";
         exit(-1);
     }
+    //cout << "mouse init done\n";
+
     timer = al_create_timer(1.0 / FPS);
     if (!timer) {
         cout << "failed to create timer!\n";
         exit(-1);
     }
+    //cout << "timer init done\n";
+
     // create the display
     display = al_create_display(widthView, heightView);
     if (!display) {
@@ -172,6 +128,8 @@ void ECGraphicViewImp::Init()
         Shutdown();
         exit(-1);
     }
+    //cout << "display init done\n";
+
     al_set_target_bitmap(al_get_backbuffer(display));
     // setup events
     event_queue = al_create_event_queue();
@@ -180,13 +138,12 @@ void ECGraphicViewImp::Init()
         Shutdown();
         exit(-1);
     }
-    //cout << "3\n";
-    //#if 0
+    //cout << "allegro init done\n";
+
     al_register_event_source(event_queue, al_get_display_event_source(display));
     al_register_event_source(event_queue, al_get_timer_event_source(timer));
     al_register_event_source(event_queue, al_get_keyboard_event_source());
     al_register_event_source(event_queue, al_get_mouse_event_source());
-    //#endif
     al_clear_to_color(al_map_rgb(255, 255, 255));
     al_flip_display();
     al_start_timer(timer);
@@ -200,7 +157,6 @@ void ECGraphicViewImp::Init()
 
 void ECGraphicViewImp::Shutdown()
 {
-    //
     if (display != NULL)
     {
         al_destroy_display(display);
@@ -216,14 +172,13 @@ void ECGraphicViewImp::Shutdown()
         al_destroy_event_queue(event_queue);
         event_queue = NULL;
     }
+    cout << "all allegro components destroyed" << endl;
 }
 
 ECGVEventType ECGraphicViewImp::WaitForEvent()
 {
-    //
     ALLEGRO_EVENT ev;
     al_wait_for_event(event_queue, &ev);
-    //cout << "Process event...\n";
 
     if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
     {
@@ -345,7 +300,6 @@ void  ECGraphicViewImp::DrawLine(int x1, int y1, int x2, int y2, int thickness, 
 {
     // draw a line
     al_draw_line(x1, y1, x2, y2, arrayAllegroColors[color], thickness);
-    //cout << "Draw line: (" << x1 << "," << y1 << " to (" << x2 << "," << y2 << ")\n";
 }
 
 void ECGraphicViewImp::DrawRectangle(int x1, int y1, int x2, int y2, int thickness, ECGVColor color)

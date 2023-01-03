@@ -11,6 +11,7 @@ void ECAbstractMouseFunction::saveCursorPosition()  {
 
 // EditModeMouseFunction
 void EditModeMouseFunction::mouseDown() {
+    // > 150 ensures that menu area is off limits
     if (!ctrl.getMouseDown()) {
         ctrl.setMouseDown();
         ctrl.setMouseDownThisMode(1);
@@ -23,6 +24,7 @@ void EditModeMouseFunction::mouseUp() {
     ctrl.setMouseUp();
     int curX, curY;
     view.GetCursorPosition(curX, curY);
+    if (curY <= 150) return; // in space reserved for menu
     int translateX = curX - ctrl.getX();
     int translateY = curY - ctrl.getY();
     if (fabs(translateX) > 0 || fabs(translateY) > 0) {
@@ -45,6 +47,8 @@ void EditModeMouseFunction::timer() {
     }
 }
 
+
+// used to draw trace shape of selected shapes when moving selected shapes when mouse is down
 void EditModeMouseFunction::mouseDownDrawWhileMoving(int translateX, int translateY, vector<Shape*> s) {
     for (auto i : s) {
         if (i->getType() == 0 || i->getType() == 2) {
@@ -63,18 +67,22 @@ void EditModeMouseFunction::mouseDownDrawWhileMoving(int translateX, int transla
 
 // InsertModeMouseFunction
 void InsertModeMouseFunction::mouseDown() {
-    if (!ctrl.getMouseDown()) {
+    saveCursorPosition();
+    if (!ctrl.getMouseDown() && ctrl.getY() > 150) {
         ctrl.setMouseDown();
         ctrl.setMouseDownThisMode(1);
-        saveCursorPosition();
+    }
+    else {
+        // in menu area --> clicking buttons
     }
 }
 void InsertModeMouseFunction::mouseUp() {
     ctrl.setMouseUp();
-    // insert with controller
-    if (ctrl.getMouseDownThisMode()) {
+    // insert with controller --> check for >150 ensures that a shape is only inserted when first clicking below the menu area
+    if (ctrl.getMouseDownThisMode() && ctrl.getY() > 150) {
         int curX, curY;
         view.GetCursorPosition(curX, curY);
+        if (curY <= 150) return; // in reserved space for menu
         // check for mode and insert ellipse when necessary
         if (!ctrl.isGAsserted() && !ctrl.isFAsserted()) ctrl.insertRectangle(curX, curY);
         else if (!ctrl.isGAsserted() && ctrl.isFAsserted()) ctrl.insertFilledRectangle(curX, curY);
@@ -83,6 +91,8 @@ void InsertModeMouseFunction::mouseUp() {
         view.SetRedraw(true);
     }
 }
+
+// used to draw trace shape of shape to insert when mouse is down
 void InsertModeMouseFunction::timer() {
     if (ctrl.getMouseDown() && ctrl.getMouseDownThisMode()) {
         int curX, curY;

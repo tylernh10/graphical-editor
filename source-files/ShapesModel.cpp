@@ -53,6 +53,15 @@ void Controller::changeMode() {
 	if (mode) model->removeSelected(); // removed when changing back to insertion mode
 }
 
+void Controller::select(int px, int py) {
+	if (py <= 150) {
+		cout << "selected in menu area: invalid select" << endl;
+		model->removeSelected();
+		return;
+	}
+	model->select(px, py, ctrlIsPressed);
+}
+
 void Controller::resetFandGAssertions() {
 	gIsAsserted = false;
 	fIsAsserted = false;

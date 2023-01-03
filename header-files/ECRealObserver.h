@@ -5,6 +5,7 @@
 #include "ECGraphicViewImp.h"
 #include "ShapesModel.h"
 #include "MouseFunction.h"
+#include "Menu.h"
 
 #include <iostream>
 #include <cmath>
@@ -26,16 +27,18 @@ private:
 };
 
 // Draw observer
-// draws all shapes in model
+// draws relevant info onscreen
 class ECDrawObserver : public ECObserver
 {
 public:
     ECDrawObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
     virtual ~ECDrawObserver() {}
     virtual void Update() override;
+    void attachMenu(Menu* m) { menu = m; }
 private:
     ECGraphicViewImp& view;
     Controller& ctrl;
+    Menu* menu;
 };
 
 // D key observer
