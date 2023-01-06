@@ -13,12 +13,15 @@ void ECSpaceObserver :: Update() {
 //ECDrawObserver
 void ECDrawObserver :: Update() {
     if (view.GetCurrEvent() == ECGV_EV_TIMER) {
-        // TODO: draw menu
         for (auto x : ctrl.getListShapes()) {
             x->Draw(view);
             view.SetRedraw(true);
         }
-        menu->draw();
+        menu->draw(); // draw menu buttons
+        int x, y;
+        view.GetCursorPosition(x, y);
+        //cout << "(" << x << "," << y << ")" << endl;
+        menu->detectMouse(x, y);
     }
 }
 

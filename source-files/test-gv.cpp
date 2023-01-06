@@ -45,8 +45,62 @@ int real_main(int argc, char** argv)
     Menu* menu = new Menu;
 
     // menu init
-    ALLEGRO_BITMAP* test = al_load_bitmap("res/bordered-rectangle.jpg");
-    menu->initBackrgound(test);
+    menu->initFont(al_load_ttf_font("IBMPlexSans-Regular.ttf", 18, 0));
+
+    menu->initDivider(al_load_bitmap("res/divider.jpg"));
+    menu->initBackground(al_load_bitmap("res/background.jpg"));
+
+    vector<ALLEGRO_BITMAP*> buttons;
+    buttons.push_back(al_load_bitmap("res/bt-edit.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-insert.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-undo.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-redo.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-delete.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-group.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-rectangle.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-ellipse.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-filled-rectangle.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-filled-ellipse.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-save.jpg"));
+    buttons.push_back(al_load_bitmap("res/bt-help.jpg"));
+    menu->initButtons(buttons);
+
+    vector<ALLEGRO_BITMAP*> hoverButtons;
+    hoverButtons.push_back(al_load_bitmap("res/bt-edit-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-insert-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-undo-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-redo-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-delete-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-group-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-rectangle-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-ellipse-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-filled-rectangle-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-filled-ellipse-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-save-hover.jpg"));
+    hoverButtons.push_back(al_load_bitmap("res/bt-help-hover.jpg"));
+    menu->initHoverButtons(hoverButtons);
+
+    vector<ALLEGRO_BITMAP*> colorButtons;
+    colorButtons.push_back(al_load_bitmap("res/bt-color-black.jpg"));
+    colorButtons.push_back(al_load_bitmap("res/bt-color-white.jpg"));
+    colorButtons.push_back(al_load_bitmap("res/bt-color-red.jpg"));
+    colorButtons.push_back(al_load_bitmap("res/bt-color-green.jpg"));
+    colorButtons.push_back(al_load_bitmap("res/bt-color-blue.jpg"));
+    colorButtons.push_back(al_load_bitmap("res/bt-color-yellow.jpg"));
+    colorButtons.push_back(al_load_bitmap("res/bt-color-purple.jpg"));
+    colorButtons.push_back(al_load_bitmap("res/bt-color-cyan.jpg"));
+    menu->initColorButtons(colorButtons);
+
+    vector<ALLEGRO_BITMAP*> hoverColorButtons;
+    hoverColorButtons.push_back(al_load_bitmap("res/bt-color-black-hover.jpg"));
+    hoverColorButtons.push_back(al_load_bitmap("res/bt-color-white-hover.jpg"));
+    hoverColorButtons.push_back(al_load_bitmap("res/bt-color-red-hover.jpg"));
+    hoverColorButtons.push_back(al_load_bitmap("res/bt-color-green-hover.jpg"));
+    hoverColorButtons.push_back(al_load_bitmap("res/bt-color-blue-hover.jpg"));
+    hoverColorButtons.push_back(al_load_bitmap("res/bt-color-yellow-hover.jpg"));
+    hoverColorButtons.push_back(al_load_bitmap("res/bt-color-purple-hover.jpg"));
+    hoverColorButtons.push_back(al_load_bitmap("res/bt-color-cyan-hover.jpg"));
+    menu->initColorHoverButtons(hoverColorButtons);
 
     // fetches and loads data from file specified via command line
     if (argc > 1) {

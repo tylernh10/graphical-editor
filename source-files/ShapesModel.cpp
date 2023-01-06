@@ -54,8 +54,8 @@ void Controller::changeMode() {
 }
 
 void Controller::select(int px, int py) {
-	if (py <= 150) {
-		cout << "selected in menu area: invalid select" << endl;
+	if (py <= 110) {
+		//cout << "selected in menu area: invalid select" << endl;
 		model->removeSelected();
 		return;
 	}

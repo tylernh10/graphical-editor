@@ -41,6 +41,6 @@ public:
 	virtual void timer();
 };
 
-// TODO: add menu mouse function --> or could add to functionality of
+// TODO: add menu mouse function --> or could add to functionality
 
 #endif

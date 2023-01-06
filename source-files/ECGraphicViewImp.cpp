@@ -152,6 +152,10 @@ void ECGraphicViewImp::Init()
     al_init_image_addon();
     al_init_primitives_addon();
 
+    // init font
+    al_init_font_addon();
+    al_init_ttf_addon();
+
     cout << "Done with initialization.\n";
 }
 

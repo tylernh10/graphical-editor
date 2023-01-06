@@ -11,7 +11,7 @@ void ECAbstractMouseFunction::saveCursorPosition()  {
 
 // EditModeMouseFunction
 void EditModeMouseFunction::mouseDown() {
-    // > 150 ensures that menu area is off limits
+    // > 110 ensures that menu area is off limits
     if (!ctrl.getMouseDown()) {
         ctrl.setMouseDown();
         ctrl.setMouseDownThisMode(1);
@@ -24,7 +24,7 @@ void EditModeMouseFunction::mouseUp() {
     ctrl.setMouseUp();
     int curX, curY;
     view.GetCursorPosition(curX, curY);
-    if (curY <= 150) return; // in space reserved for menu
+    if (curY <= 110) return; // in space reserved for menu
     int translateX = curX - ctrl.getX();
     int translateY = curY - ctrl.getY();
     if (fabs(translateX) > 0 || fabs(translateY) > 0) {
@@ -68,7 +68,7 @@ void EditModeMouseFunction::mouseDownDrawWhileMoving(int translateX, int transla
 // InsertModeMouseFunction
 void InsertModeMouseFunction::mouseDown() {
     saveCursorPosition();
-    if (!ctrl.getMouseDown() && ctrl.getY() > 150) {
+    if (!ctrl.getMouseDown() && ctrl.getY() > 110) {
         ctrl.setMouseDown();
         ctrl.setMouseDownThisMode(1);
     }
@@ -78,11 +78,11 @@ void InsertModeMouseFunction::mouseDown() {
 }
 void InsertModeMouseFunction::mouseUp() {
     ctrl.setMouseUp();
-    // insert with controller --> check for >150 ensures that a shape is only inserted when first clicking below the menu area
-    if (ctrl.getMouseDownThisMode() && ctrl.getY() > 150) {
+    // insert with controller --> check for >110 ensures that a shape is only inserted when first clicking below the menu area
+    if (ctrl.getMouseDownThisMode() && ctrl.getY() > 110) {
         int curX, curY;
         view.GetCursorPosition(curX, curY);
-        if (curY <= 150) return; // in reserved space for menu
+        if (curY <= 110) return; // in reserved space for menu
         // check for mode and insert ellipse when necessary
         if (!ctrl.isGAsserted() && !ctrl.isFAsserted()) ctrl.insertRectangle(curX, curY);
         else if (!ctrl.isGAsserted() && ctrl.isFAsserted()) ctrl.insertFilledRectangle(curX, curY);
