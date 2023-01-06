@@ -17,7 +17,7 @@ void ECDrawObserver :: Update() {
             x->Draw(view);
             view.SetRedraw(true);
         }
-        menu->draw(); // draw menu buttons
+        menu->timer(ctrl.getMode()); // draw menu buttons
         int x, y;
         view.GetCursorPosition(x, y);
         //cout << "(" << x << "," << y << ")" << endl;
@@ -42,9 +42,9 @@ void ECMouseObserver::Update() {
         if (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN) {
             mouseFunction.mouseDown();
         }
-        if (view.GetCurrEvent() == ECGV_EV_TIMER) {
+        /*if (view.GetCurrEvent() == ECGV_EV_TIMER) {
             mouseFunction.timer();
-        }
+        }*/
     }
 }
 
