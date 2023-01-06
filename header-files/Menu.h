@@ -1,7 +1,12 @@
 #ifndef MENU_H
 #define MENU_H
 
+class Menu;
+class EditModeMouseFunction;
+class InsertModeMouseFunction;
+
 #include "ECGraphicViewImp.h"
+#include "MouseFunction.h"
 
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
@@ -11,8 +16,8 @@ using namespace std;
 
 class Menu {
 public:
-	Menu() {}
-	~Menu() {} // TODO: destory all bitmaps
+	Menu(EditModeMouseFunction& e, InsertModeMouseFunction& i): editModeMouseFunction(e), insertModeMouseFunction(i) {}
+	~Menu() {} // TODO: destroy all bitmaps
 	void initDivider(ALLEGRO_BITMAP* div);
 	void initBackground(ALLEGRO_BITMAP* bg);
 	
@@ -21,7 +26,7 @@ public:
 	void initColorButtons(vector<ALLEGRO_BITMAP*> bts);
 	void initColorHoverButtons(vector<ALLEGRO_BITMAP*> bts);
 	void initFont(ALLEGRO_FONT* f);
-	void draw(); // draws all menu buttons
+	void timer(int mode); // draws all menu buttons and take care of trace shapes
 	void detectMouse(int px, int py);
 private:
 	ALLEGRO_BITMAP* divider;
@@ -53,6 +58,8 @@ private:
 		"Save",
 		"Help"
 	};
+	EditModeMouseFunction& editModeMouseFunction;
+	InsertModeMouseFunction& insertModeMouseFunction;
 };
 
 #endif

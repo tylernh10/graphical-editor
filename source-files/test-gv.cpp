@@ -37,14 +37,20 @@ CompositeShape* parseComposite(int numMembers, ifstream& f, ShapesModel* model) 
 // Test graphical view code
 int real_main(int argc, char** argv)
 {
+    // Initialize view
     const int widthWin = 1000, heightWin = 1000;
     ECGraphicViewImp view(widthWin, heightWin);
+    
+    // Initialize Model and Controller
     ShapesModel* model = new ShapesModel;
-    // TODO: adjust window title
     Controller ctrl(model);
-    Menu* menu = new Menu;
+    
+    // Mouse Functions --> these will be accessed in the menu and in the mouse observers
+    InsertModeMouseFunction insertMouseFunctionality(view, ctrl);
+    EditModeMouseFunction editMouseFunctionality(view, ctrl);
 
     // menu init
+    Menu* menu = new Menu(editMouseFunctionality, insertMouseFunctionality);
     menu->initFont(al_load_ttf_font("IBMPlexSans-Regular.ttf", 18, 0));
 
     menu->initDivider(al_load_bitmap("res/divider.jpg"));
@@ -140,8 +146,6 @@ int real_main(int argc, char** argv)
     ECRightArrowObserver* RightKeyObserver = new ECRightArrowObserver(view, ctrl);
 
     // Mouse Observers Init
-    InsertModeMouseFunction insertMouseFunctionality(view, ctrl);
-    EditModeMouseFunction editMouseFunctionality(view, ctrl);
     ECMouseObserver* EditModeMouseObserver = new ECMouseObserver(view, ctrl, 0, editMouseFunctionality);
     ECMouseObserver* InsertModeMouseObserver = new ECMouseObserver(view, ctrl, 1, insertMouseFunctionality);
 

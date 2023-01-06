@@ -28,7 +28,14 @@ void Menu::initFont(ALLEGRO_FONT* f) {
 	font = f;
 }
 
-void Menu::draw() {
+void Menu::timer(int mode) {
+	if (!mode) {
+		editModeMouseFunction.timer();
+	}
+	else if (mode == 1) {
+		insertModeMouseFunction.timer();
+	}
+	
 	// draw background
 	al_draw_bitmap(background, 0, 0, 0);
 	
