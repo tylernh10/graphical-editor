@@ -228,7 +228,12 @@ ECGVEventType ECGraphicViewImp::WaitForEvent()
 
         case ALLEGRO_KEY_RCTRL:
             return ECGV_EV_KEY_DOWN_CTRL;
+        
+        case ALLEGRO_KEY_S:
+            return ECGV_EV_KEY_DOWN_S;
 
+        case ALLEGRO_KEY_H:
+            return ECGV_EV_KEY_DOWN_H;
         }
     }
     else if (ev.type == ALLEGRO_EVENT_KEY_UP) {

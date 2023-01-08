@@ -8,8 +8,6 @@
 #include "../header-files/Shape.h"
 #include "../header-files/Menu.h"
 #include <iostream>
-#include <fstream>
-#include <sstream>
 using namespace std;
 
 CompositeShape* parseComposite(int numMembers, ifstream& f, ShapesModel* model) {
@@ -40,9 +38,12 @@ int real_main(int argc, char** argv)
     // Initialize view
     const int widthWin = 1000, heightWin = 1000;
     ECGraphicViewImp view(widthWin, heightWin);
+
+    // Get filename from command line args
+    string filename = (argc == 2) ? argv[1] : "";
     
     // Initialize Model and Controller
-    ShapesModel* model = new ShapesModel;
+    ShapesModel* model = new ShapesModel(filename);
     Controller ctrl(model);
     
     // Mouse Functions --> these will be accessed in the menu and in the mouse observers
@@ -122,7 +123,8 @@ int real_main(int argc, char** argv)
                 }
                 if (x.size() == 2) {
                     model->loadComposite(parseComposite(x.at(1), f, model));
-                } else if (x.size() > 2) {
+                }
+                else if (x.size() > 2) {
                     model->parseAtomic(x);
                 }
             }
@@ -139,6 +141,8 @@ int real_main(int argc, char** argv)
     ECTypeInsertObserver* TypeInsertObserver = new ECTypeInsertObserver(view, ctrl, menu);
     ECCtrlObserver* CtrlKeyObserver = new ECCtrlObserver(view, ctrl);
     ECColorObserver* ColorObserver = new ECColorObserver(view, ctrl, menu);
+    ECSaveObserver* SaveObserver = new ECSaveObserver(view, ctrl, menu);
+    ECHelpObserver* HelpObserver = new ECHelpObserver(view, ctrl, menu);
     ECUpArrowObserver* UpKeyObserver = new ECUpArrowObserver(view, ctrl);
     ECDownArrowObserver* DownKeyObserver = new ECDownArrowObserver(view, ctrl);
     ECLeftArrowObserver* LeftKeyObserver = new ECLeftArrowObserver(view, ctrl);
@@ -159,6 +163,8 @@ int real_main(int argc, char** argv)
     view.Attach(EditModeMouseObserver);
     view.Attach(InsertModeMouseObserver);
     view.Attach(ColorObserver);
+    view.Attach(SaveObserver);
+    view.Attach(HelpObserver);
     view.Attach(UpKeyObserver);
     view.Attach(DownKeyObserver);
     view.Attach(LeftKeyObserver);
@@ -167,14 +173,8 @@ int real_main(int argc, char** argv)
     // Run application
     view.Show();
 
-    if (argc == 2) {
-        ofstream f(argv[1], std::ios::trunc);
-        f << model->getListShapes().size() << endl;
-        for (auto i: model->getListShapes()) {
-            i->writeShape(f);
-        }
-        f.close();
-    }
+    // Save before closing
+    model->save();
 
     // Deallocate pointers
     delete ModeObserver;
@@ -186,6 +186,8 @@ int real_main(int argc, char** argv)
     delete TypeInsertObserver;
     delete CtrlKeyObserver;
     delete ColorObserver;
+    delete SaveObserver;
+    delete HelpObserver;
     delete UpKeyObserver;
     delete DownKeyObserver;
     delete LeftKeyObserver;

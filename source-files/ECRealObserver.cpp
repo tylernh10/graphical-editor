@@ -1,4 +1,5 @@
 #include "../header-files/ECRealObserver.h"
+#include <allegro5/allegro_native_dialog.h>
 
 // ECModeObserver
 void ECModeObserver :: Update() {
@@ -10,7 +11,7 @@ void ECModeObserver :: Update() {
         if (ctrl.getMode() == 0) view.defaultCursor();
         if (ctrl.getMode() == 1) view.insertCursor();
         ctrl.setMouseDownThisMode(0);
-        ctrl.resetFandGAssertions(); // changes F and G asserted to false when switching modes
+        //ctrl.resetFandGAssertions(); // changes F and G asserted to false when switching modes
         view.SetRedraw(true); // needed for color change of selected becoming unselected
     }
 }
@@ -118,6 +119,40 @@ void ECColorObserver::Update() {
                 ctrl.setColor(i);
             }
         }
+    }
+}
+
+void ECSaveObserver::Update() {
+    if (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_S ||
+        view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(18)) {
+        ctrl.save();
+    }
+}
+
+void ECHelpObserver::Update() {
+    if (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_H ||
+        view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(19)) {
+        al_show_native_message_box(view.getDisplay(), "Help", "Graphical Editor Help Information", 
+            "Use the mouse to draw, select, and move shapes.\n"
+            "Hover over a button in the menu at the top of the screen to see what it does.\n\n"
+            "The keyboard can also be used for menu operations.\n"
+            "Press the spacebar to switch modes (edit and insert).\n"
+            "Press S to save.\n"
+            "Press H to open the Help Dialog (this message).\n"
+            "Press Z to undo an action.\n"
+            "Press Y to redo an action.\n\n"
+            "Insert Mode Only:\n"
+            "Press F to toggle filled and unfilled shapes.\n"
+            "Press G to toggle inserting a rectangle and ellipse.\n\n"
+            "Edit Mode Only:\n"
+            "Press D to delete a shape.\n"
+            "Press G to group multiple shapes or ungroup a singular grouped shape.\n"
+            "Hold down CTRL to select and move multiple shapes.\n"
+            "Use arrow keys to move shapes (can also use mouse to move).\n\n"
+            "For more information, please visit github.com/tylernh10/graphical-editor or refer to the README.md for this repository.\n\n"
+            "Thanks for checking out this project! :)"
+            ,
+            NULL, ALLEGRO_MESSAGEBOX_QUESTION);
     }
 }
 

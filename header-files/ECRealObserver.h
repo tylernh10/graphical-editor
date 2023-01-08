@@ -139,6 +139,34 @@ private:
     Menu& menu;
 };
 
+// Save Observer
+// Allows user to save via the keyboard or menu
+class ECSaveObserver : public ECObserver
+{
+public:
+    ECSaveObserver(ECGraphicViewImp& view, Controller& ctrl, Menu& m) : view(view), ctrl(ctrl), menu(m) {}
+    virtual ~ECSaveObserver() {}
+    virtual void Update();
+private:
+    ECGraphicViewImp& view;
+    Controller& ctrl;
+    Menu& menu;
+};
+
+// Help Observer
+// Allows user to save via the keyboard or menu
+class ECHelpObserver : public ECObserver
+{
+public:
+    ECHelpObserver(ECGraphicViewImp& view, Controller& ctrl, Menu& m) : view(view), ctrl(ctrl), menu(m) {}
+    virtual ~ECHelpObserver() {}
+    virtual void Update();
+private:
+    ECGraphicViewImp& view;
+    Controller& ctrl;
+    Menu& menu;
+};
+
 // Arrow Key Observers
 // When pressed, they move all selected shapes 10 by the direction specified by the key pressed
 class ECGenericArrowObserver : public ECObserver

@@ -225,3 +225,14 @@ ECGVColor ShapesModel::getColor() {
 void ShapesModel::setColor(int x) {
 	color = parseColor(x);
 }
+
+void ShapesModel::save() {
+	if (filename != "") {
+		ofstream f(filename, std::ios::trunc);
+		f << getListShapes().size() << endl;
+		for (auto i : getListShapes()) {
+			i->writeShape(f);
+		}
+		f.close();
+	}
+}

@@ -58,7 +58,9 @@ enum ECGVEventType
     ECGV_EV_KEY_DOWN_F = 25,
     ECGV_EV_KEY_UP_F = 26,
     ECGV_EV_KEY_DOWN_CTRL = 27,
-    ECGV_EV_KEY_UP_CTRL = 28
+    ECGV_EV_KEY_UP_CTRL = 28,
+    ECGV_EV_KEY_DOWN_S = 29,
+    ECGV_EV_KEY_DOWN_H = 30
 };
 
 //***********************************************************
@@ -143,6 +145,9 @@ public:
     // cursor setting
     void insertCursor();
     void defaultCursor();
+
+    // Access view
+    ALLEGRO_DISPLAY* getDisplay() { return display; }
 
 private:
     // Internal functions

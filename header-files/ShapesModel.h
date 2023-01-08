@@ -5,13 +5,15 @@
 #include "Command.h"
 #include <vector>
 #include <algorithm>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 class ECCommandHistory; // necessary forward declaration
 
 class ShapesModel {
 public:
-	ShapesModel(): color(ECGV_BLACK) {}
+	ShapesModel(string f): color(ECGV_BLACK), filename(f) {}
 	vector<Shape*> getListShapes() { return listShapes; }
 	void addShape(Shape* x) { listShapes.push_back(x); }
 	void removeShape(Shape* x);
@@ -32,10 +34,14 @@ public:
 	ECGVColor getColor(); // retrieves current color
 	void setColor(int x); // sets current color
 
+	// saving
+	void save();
+
 private:
 	vector<Shape*> listShapes;
 	vector<Shape*> selected;
 	ECGVColor color;
+	string filename;
 };
 
 class Controller {
@@ -106,6 +112,9 @@ public:
 
 	// color
 	void setColor(int x);
+
+	// save
+	void save() { model->save(); }
 
 private:
 	ShapesModel* model; // reference to model
