@@ -228,7 +228,12 @@ ECGVEventType ECGraphicViewImp::WaitForEvent()
 
         case ALLEGRO_KEY_RCTRL:
             return ECGV_EV_KEY_DOWN_CTRL;
+        
+        case ALLEGRO_KEY_S:
+            return ECGV_EV_KEY_DOWN_S;
 
+        case ALLEGRO_KEY_H:
+            return ECGV_EV_KEY_DOWN_H;
         }
     }
     else if (ev.type == ALLEGRO_EVENT_KEY_UP) {
@@ -334,4 +339,12 @@ void ECGraphicViewImp::DrawFilledCircle(int xcenter, int ycenter, double radius,
 void ECGraphicViewImp::DrawFilledEllipse(int xcenter, int ycenter, double radiusx, double radiusy, ECGVColor color)
 {
     al_draw_filled_ellipse(xcenter, ycenter, radiusx, radiusy, arrayAllegroColors[color]);
+}
+
+void ECGraphicViewImp::defaultCursor() {
+    al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
+}
+
+void ECGraphicViewImp::insertCursor() {
+    al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_PRECISION);
 }

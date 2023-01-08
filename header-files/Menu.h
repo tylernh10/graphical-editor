@@ -16,11 +16,10 @@ using namespace std;
 
 class Menu {
 public:
-	Menu(EditModeMouseFunction& e, InsertModeMouseFunction& i): editModeMouseFunction(e), insertModeMouseFunction(i) {}
-	~Menu() {} // TODO: destroy all bitmaps
+	Menu(EditModeMouseFunction& e, InsertModeMouseFunction& i);
+	~Menu(); // TODO: destroy all bitmaps
 	void initDivider(ALLEGRO_BITMAP* div);
 	void initBackground(ALLEGRO_BITMAP* bg);
-	
 	void initButtons(vector<ALLEGRO_BITMAP*> bts);
 	void initHoverButtons(vector<ALLEGRO_BITMAP*> bts);
 	void initColorButtons(vector<ALLEGRO_BITMAP*> bts);
@@ -28,6 +27,7 @@ public:
 	void initFont(ALLEGRO_FONT* f);
 	void timer(int mode); // draws all menu buttons and take care of trace shapes
 	void detectMouse(int px, int py);
+	bool checkOverButton(int x);
 private:
 	ALLEGRO_BITMAP* divider;
 	ALLEGRO_BITMAP* background;
@@ -60,6 +60,7 @@ private:
 	};
 	EditModeMouseFunction& editModeMouseFunction;
 	InsertModeMouseFunction& insertModeMouseFunction;
+	vector<bool> currentHover; // keeps track of what button is currently being hovered over
 };
 
 #endif

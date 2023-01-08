@@ -56,10 +56,12 @@ at a later time. The file will be created if it does not exist.
 ### Future Features:
 * Documentation on shape scheme
 * Makefile for easier compilation
-* Menu onscreen allowing users to change colors of shapes, changes modes, etc.
+* Menu onscreen allowing users to change colors of shapes, changes modes, etc. *(in progress)*
 * Add support for users to add onscreen text
 * Allowing users to specify which file to open in the application instead of only via command line
 * Detailed documentation on design patterns used
 * Detailed description on how to install Allegro
+
+### Copyright Info
 
 &copy; Tyler Hinrichs 2022

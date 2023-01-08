@@ -8,8 +8,6 @@
 #include "../header-files/Shape.h"
 #include "../header-files/Menu.h"
 #include <iostream>
-#include <fstream>
-#include <sstream>
 using namespace std;
 
 CompositeShape* parseComposite(int numMembers, ifstream& f, ShapesModel* model) {
@@ -40,9 +38,12 @@ int real_main(int argc, char** argv)
     // Initialize view
     const int widthWin = 1000, heightWin = 1000;
     ECGraphicViewImp view(widthWin, heightWin);
+
+    // Get filename from command line args
+    string filename = (argc == 2) ? argv[1] : "";
     
     // Initialize Model and Controller
-    ShapesModel* model = new ShapesModel;
+    ShapesModel* model = new ShapesModel(filename);
     Controller ctrl(model);
     
     // Mouse Functions --> these will be accessed in the menu and in the mouse observers
@@ -50,11 +51,10 @@ int real_main(int argc, char** argv)
     EditModeMouseFunction editMouseFunctionality(view, ctrl);
 
     // menu init
-    Menu* menu = new Menu(editMouseFunctionality, insertMouseFunctionality);
-    menu->initFont(al_load_ttf_font("IBMPlexSans-Regular.ttf", 18, 0));
-
-    menu->initDivider(al_load_bitmap("res/divider.jpg"));
-    menu->initBackground(al_load_bitmap("res/background.jpg"));
+    Menu menu(editMouseFunctionality, insertMouseFunctionality);
+    menu.initFont(al_load_ttf_font("IBMPlexSans-Regular.ttf", 18, 0));
+    menu.initDivider(al_load_bitmap("res/divider.jpg"));
+    menu.initBackground(al_load_bitmap("res/background.jpg"));
 
     vector<ALLEGRO_BITMAP*> buttons;
     buttons.push_back(al_load_bitmap("res/bt-edit.jpg"));
@@ -69,7 +69,7 @@ int real_main(int argc, char** argv)
     buttons.push_back(al_load_bitmap("res/bt-filled-ellipse.jpg"));
     buttons.push_back(al_load_bitmap("res/bt-save.jpg"));
     buttons.push_back(al_load_bitmap("res/bt-help.jpg"));
-    menu->initButtons(buttons);
+    menu.initButtons(buttons);
 
     vector<ALLEGRO_BITMAP*> hoverButtons;
     hoverButtons.push_back(al_load_bitmap("res/bt-edit-hover.jpg"));
@@ -84,7 +84,7 @@ int real_main(int argc, char** argv)
     hoverButtons.push_back(al_load_bitmap("res/bt-filled-ellipse-hover.jpg"));
     hoverButtons.push_back(al_load_bitmap("res/bt-save-hover.jpg"));
     hoverButtons.push_back(al_load_bitmap("res/bt-help-hover.jpg"));
-    menu->initHoverButtons(hoverButtons);
+    menu.initHoverButtons(hoverButtons);
 
     vector<ALLEGRO_BITMAP*> colorButtons;
     colorButtons.push_back(al_load_bitmap("res/bt-color-black.jpg"));
@@ -95,7 +95,7 @@ int real_main(int argc, char** argv)
     colorButtons.push_back(al_load_bitmap("res/bt-color-yellow.jpg"));
     colorButtons.push_back(al_load_bitmap("res/bt-color-purple.jpg"));
     colorButtons.push_back(al_load_bitmap("res/bt-color-cyan.jpg"));
-    menu->initColorButtons(colorButtons);
+    menu.initColorButtons(colorButtons);
 
     vector<ALLEGRO_BITMAP*> hoverColorButtons;
     hoverColorButtons.push_back(al_load_bitmap("res/bt-color-black-hover.jpg"));
@@ -106,7 +106,7 @@ int real_main(int argc, char** argv)
     hoverColorButtons.push_back(al_load_bitmap("res/bt-color-yellow-hover.jpg"));
     hoverColorButtons.push_back(al_load_bitmap("res/bt-color-purple-hover.jpg"));
     hoverColorButtons.push_back(al_load_bitmap("res/bt-color-cyan-hover.jpg"));
-    menu->initColorHoverButtons(hoverColorButtons);
+    menu.initColorHoverButtons(hoverColorButtons);
 
     // fetches and loads data from file specified via command line
     if (argc > 1) {
@@ -123,7 +123,8 @@ int real_main(int argc, char** argv)
                 }
                 if (x.size() == 2) {
                     model->loadComposite(parseComposite(x.at(1), f, model));
-                } else if (x.size() > 2) {
+                }
+                else if (x.size() > 2) {
                     model->parseAtomic(x);
                 }
             }
@@ -132,14 +133,16 @@ int real_main(int argc, char** argv)
     }
 
     // Creating observers
-    ECSpaceObserver* SpaceObserver = new ECSpaceObserver(view, ctrl);
-    ECDrawObserver* DrawObserver = new ECDrawObserver(view, ctrl);
-    DrawObserver->attachMenu(menu); // attach menu
-    ECDObserver* DelObserver = new ECDObserver(view, ctrl);
-    ECUndoRedoObserver* UndoRedoObserver = new ECUndoRedoObserver(view, ctrl);
-    ECGObserver* GKeyObserver = new ECGObserver(view, ctrl);
-    ECFObserver* FKeyObserver = new ECFObserver(view, ctrl);
+    ECModeObserver* ModeObserver = new ECModeObserver(view, ctrl, menu);
+    ECDrawObserver* DrawObserver = new ECDrawObserver(view, ctrl, menu);
+    ECDelObserver* DelObserver = new ECDelObserver(view, ctrl, menu);
+    ECUndoRedoObserver* UndoRedoObserver = new ECUndoRedoObserver(view, ctrl, menu);
+    ECGroupObserver* GroupObserver = new ECGroupObserver(view, ctrl, menu);
+    ECTypeInsertObserver* TypeInsertObserver = new ECTypeInsertObserver(view, ctrl, menu);
     ECCtrlObserver* CtrlKeyObserver = new ECCtrlObserver(view, ctrl);
+    ECColorObserver* ColorObserver = new ECColorObserver(view, ctrl, menu);
+    ECSaveObserver* SaveObserver = new ECSaveObserver(view, ctrl, menu);
+    ECHelpObserver* HelpObserver = new ECHelpObserver(view, ctrl, menu);
     ECUpArrowObserver* UpKeyObserver = new ECUpArrowObserver(view, ctrl);
     ECDownArrowObserver* DownKeyObserver = new ECDownArrowObserver(view, ctrl);
     ECLeftArrowObserver* LeftKeyObserver = new ECLeftArrowObserver(view, ctrl);
@@ -150,15 +153,18 @@ int real_main(int argc, char** argv)
     ECMouseObserver* InsertModeMouseObserver = new ECMouseObserver(view, ctrl, 1, insertMouseFunctionality);
 
     // Attaching observers
-    view.Attach(SpaceObserver);
+    view.Attach(ModeObserver);
     view.Attach(DrawObserver);
     view.Attach(DelObserver);
     view.Attach(UndoRedoObserver);
-    view.Attach(GKeyObserver);
-    view.Attach(FKeyObserver);
+    view.Attach(GroupObserver);
+    view.Attach(TypeInsertObserver);
     view.Attach(CtrlKeyObserver);
     view.Attach(EditModeMouseObserver);
     view.Attach(InsertModeMouseObserver);
+    view.Attach(ColorObserver);
+    view.Attach(SaveObserver);
+    view.Attach(HelpObserver);
     view.Attach(UpKeyObserver);
     view.Attach(DownKeyObserver);
     view.Attach(LeftKeyObserver);
@@ -167,32 +173,27 @@ int real_main(int argc, char** argv)
     // Run application
     view.Show();
 
-    if (argc == 2) {
-        ofstream f(argv[1], std::ios::trunc);
-        f << model->getListShapes().size() << endl;
-        for (auto i: model->getListShapes()) {
-            i->writeShape(f);
-        }
-        f.close();
-    }
+    // Save before closing
+    model->save();
 
     // Deallocate pointers
-    delete SpaceObserver;
+    delete ModeObserver;
     delete DrawObserver;
     delete DelObserver;
     delete UndoRedoObserver;
     delete EditModeMouseObserver;
-    delete GKeyObserver;
+    delete GroupObserver;
+    delete TypeInsertObserver;
     delete CtrlKeyObserver;
+    delete ColorObserver;
+    delete SaveObserver;
+    delete HelpObserver;
     delete UpKeyObserver;
     delete DownKeyObserver;
     delete LeftKeyObserver;
     delete RightKeyObserver;
-    delete FKeyObserver;
     delete InsertModeMouseObserver;
     delete model;
-
-    // destroy allegro components
 
     return 0;
 }
