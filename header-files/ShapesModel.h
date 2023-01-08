@@ -11,7 +11,7 @@ class ECCommandHistory; // necessary forward declaration
 
 class ShapesModel {
 public:
-	ShapesModel() {}
+	ShapesModel(): color(ECGV_BLACK) {}
 	vector<Shape*> getListShapes() { return listShapes; }
 	void addShape(Shape* x) { listShapes.push_back(x); }
 	void removeShape(Shape* x);
@@ -26,11 +26,16 @@ public:
 	void select(int px, int py, bool ctrlIsAsserted);
 	vector<Shape*> getSelected(); // return currently selected shape
 	void removeSelected(); // clears selected vector; deselects any shape that is selected
+	
+	// color
 	ECGVColor parseColor(int x);
+	ECGVColor getColor(); // retrieves current color
+	void setColor(int x); // sets current color
 
 private:
 	vector<Shape*> listShapes;
 	vector<Shape*> selected;
+	ECGVColor color;
 };
 
 class Controller {
@@ -68,13 +73,15 @@ public:
 	void deleteShape(); // delete selected shape
 	void moveShape(int translateX, int translateY); // move shape to new position based on translation
 
-	// G key pressed
+	// G key pressed (G can be "pressed" from the menu)
 	bool isGAsserted() { return gIsAsserted; }
 	void pressGKey() { gIsAsserted = !gIsAsserted; }
+	void setGKey(bool x) { gIsAsserted = x; }
 
 	// F key pressed
 	bool isFAsserted() { return fIsAsserted; }
 	void pressFKey() { fIsAsserted = !fIsAsserted; }
+	void setFKey(bool x) { fIsAsserted = x; }
 
 	// Reset F and G assertions to false when switching modes
 	void resetFandGAssertions();
@@ -89,12 +96,16 @@ public:
 	void pressLeftArrow();
 	void pressRightArrow();
 
-	// G key in edit mode
-	void pressGKeyEditMode();
+	// Group/Ungroup
+	void GroupShapes();
+	void removeSelected() { model->removeSelected(); }
 
 	// undo/redo operations
 	void Undo();
 	void Redo();
+
+	// color
+	void setColor(int x);
 
 private:
 	ShapesModel* model; // reference to model

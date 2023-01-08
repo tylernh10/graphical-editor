@@ -140,6 +140,9 @@ public:
     void DrawFilledCircle(int xcenter, int ycenter, double radius, ECGVColor color = ECGV_BLACK);
     void DrawEllipse(int xcenter, int ycenter, double radiusx, double radiusy, int thickness = 3, ECGVColor color = ECGV_BLACK);
     void DrawFilledEllipse(int xcenter, int ycenter, double radiusx, double radiusy, ECGVColor color = ECGV_BLACK);
+    // cursor setting
+    void insertCursor();
+    void defaultCursor();
 
 private:
     // Internal functions

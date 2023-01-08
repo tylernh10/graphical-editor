@@ -50,11 +50,10 @@ int real_main(int argc, char** argv)
     EditModeMouseFunction editMouseFunctionality(view, ctrl);
 
     // menu init
-    Menu* menu = new Menu(editMouseFunctionality, insertMouseFunctionality);
-    menu->initFont(al_load_ttf_font("IBMPlexSans-Regular.ttf", 18, 0));
-
-    menu->initDivider(al_load_bitmap("res/divider.jpg"));
-    menu->initBackground(al_load_bitmap("res/background.jpg"));
+    Menu menu(editMouseFunctionality, insertMouseFunctionality);
+    menu.initFont(al_load_ttf_font("IBMPlexSans-Regular.ttf", 18, 0));
+    menu.initDivider(al_load_bitmap("res/divider.jpg"));
+    menu.initBackground(al_load_bitmap("res/background.jpg"));
 
     vector<ALLEGRO_BITMAP*> buttons;
     buttons.push_back(al_load_bitmap("res/bt-edit.jpg"));
@@ -69,7 +68,7 @@ int real_main(int argc, char** argv)
     buttons.push_back(al_load_bitmap("res/bt-filled-ellipse.jpg"));
     buttons.push_back(al_load_bitmap("res/bt-save.jpg"));
     buttons.push_back(al_load_bitmap("res/bt-help.jpg"));
-    menu->initButtons(buttons);
+    menu.initButtons(buttons);
 
     vector<ALLEGRO_BITMAP*> hoverButtons;
     hoverButtons.push_back(al_load_bitmap("res/bt-edit-hover.jpg"));
@@ -84,7 +83,7 @@ int real_main(int argc, char** argv)
     hoverButtons.push_back(al_load_bitmap("res/bt-filled-ellipse-hover.jpg"));
     hoverButtons.push_back(al_load_bitmap("res/bt-save-hover.jpg"));
     hoverButtons.push_back(al_load_bitmap("res/bt-help-hover.jpg"));
-    menu->initHoverButtons(hoverButtons);
+    menu.initHoverButtons(hoverButtons);
 
     vector<ALLEGRO_BITMAP*> colorButtons;
     colorButtons.push_back(al_load_bitmap("res/bt-color-black.jpg"));
@@ -95,7 +94,7 @@ int real_main(int argc, char** argv)
     colorButtons.push_back(al_load_bitmap("res/bt-color-yellow.jpg"));
     colorButtons.push_back(al_load_bitmap("res/bt-color-purple.jpg"));
     colorButtons.push_back(al_load_bitmap("res/bt-color-cyan.jpg"));
-    menu->initColorButtons(colorButtons);
+    menu.initColorButtons(colorButtons);
 
     vector<ALLEGRO_BITMAP*> hoverColorButtons;
     hoverColorButtons.push_back(al_load_bitmap("res/bt-color-black-hover.jpg"));
@@ -106,7 +105,7 @@ int real_main(int argc, char** argv)
     hoverColorButtons.push_back(al_load_bitmap("res/bt-color-yellow-hover.jpg"));
     hoverColorButtons.push_back(al_load_bitmap("res/bt-color-purple-hover.jpg"));
     hoverColorButtons.push_back(al_load_bitmap("res/bt-color-cyan-hover.jpg"));
-    menu->initColorHoverButtons(hoverColorButtons);
+    menu.initColorHoverButtons(hoverColorButtons);
 
     // fetches and loads data from file specified via command line
     if (argc > 1) {
@@ -132,14 +131,14 @@ int real_main(int argc, char** argv)
     }
 
     // Creating observers
-    ECSpaceObserver* SpaceObserver = new ECSpaceObserver(view, ctrl);
-    ECDrawObserver* DrawObserver = new ECDrawObserver(view, ctrl);
-    DrawObserver->attachMenu(menu); // attach menu
-    ECDObserver* DelObserver = new ECDObserver(view, ctrl);
-    ECUndoRedoObserver* UndoRedoObserver = new ECUndoRedoObserver(view, ctrl);
-    ECGObserver* GKeyObserver = new ECGObserver(view, ctrl);
-    ECFObserver* FKeyObserver = new ECFObserver(view, ctrl);
+    ECModeObserver* ModeObserver = new ECModeObserver(view, ctrl, menu);
+    ECDrawObserver* DrawObserver = new ECDrawObserver(view, ctrl, menu);
+    ECDelObserver* DelObserver = new ECDelObserver(view, ctrl, menu);
+    ECUndoRedoObserver* UndoRedoObserver = new ECUndoRedoObserver(view, ctrl, menu);
+    ECGroupObserver* GroupObserver = new ECGroupObserver(view, ctrl, menu);
+    ECTypeInsertObserver* TypeInsertObserver = new ECTypeInsertObserver(view, ctrl, menu);
     ECCtrlObserver* CtrlKeyObserver = new ECCtrlObserver(view, ctrl);
+    ECColorObserver* ColorObserver = new ECColorObserver(view, ctrl, menu);
     ECUpArrowObserver* UpKeyObserver = new ECUpArrowObserver(view, ctrl);
     ECDownArrowObserver* DownKeyObserver = new ECDownArrowObserver(view, ctrl);
     ECLeftArrowObserver* LeftKeyObserver = new ECLeftArrowObserver(view, ctrl);
@@ -150,15 +149,16 @@ int real_main(int argc, char** argv)
     ECMouseObserver* InsertModeMouseObserver = new ECMouseObserver(view, ctrl, 1, insertMouseFunctionality);
 
     // Attaching observers
-    view.Attach(SpaceObserver);
+    view.Attach(ModeObserver);
     view.Attach(DrawObserver);
     view.Attach(DelObserver);
     view.Attach(UndoRedoObserver);
-    view.Attach(GKeyObserver);
-    view.Attach(FKeyObserver);
+    view.Attach(GroupObserver);
+    view.Attach(TypeInsertObserver);
     view.Attach(CtrlKeyObserver);
     view.Attach(EditModeMouseObserver);
     view.Attach(InsertModeMouseObserver);
+    view.Attach(ColorObserver);
     view.Attach(UpKeyObserver);
     view.Attach(DownKeyObserver);
     view.Attach(LeftKeyObserver);
@@ -177,22 +177,21 @@ int real_main(int argc, char** argv)
     }
 
     // Deallocate pointers
-    delete SpaceObserver;
+    delete ModeObserver;
     delete DrawObserver;
     delete DelObserver;
     delete UndoRedoObserver;
     delete EditModeMouseObserver;
-    delete GKeyObserver;
+    delete GroupObserver;
+    delete TypeInsertObserver;
     delete CtrlKeyObserver;
+    delete ColorObserver;
     delete UpKeyObserver;
     delete DownKeyObserver;
     delete LeftKeyObserver;
     delete RightKeyObserver;
-    delete FKeyObserver;
     delete InsertModeMouseObserver;
     delete model;
-
-    // destroy allegro components
 
     return 0;
 }

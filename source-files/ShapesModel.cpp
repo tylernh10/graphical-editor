@@ -55,7 +55,6 @@ void Controller::changeMode() {
 
 void Controller::select(int px, int py) {
 	if (py <= 110) {
-		//cout << "selected in menu area: invalid select" << endl;
 		model->removeSelected();
 		return;
 	}
@@ -80,7 +79,8 @@ void Controller::pressRightArrow() {
 	moveShape(10, 0);
 }
 
-void Controller::pressGKeyEditMode() {
+void Controller::GroupShapes() {
+	// If only one shape is selected, attempt to ungroup
 	if (model->getSelected().size() == 1) {
 		CompositeShape* c = dynamic_cast<CompositeShape*>(getSelected().at(0));
 		if (c != NULL) {
@@ -103,6 +103,10 @@ void Controller::Undo() {
 void Controller::Redo() {
 	model->removeSelected();
 	history->Redo();
+}
+
+void Controller::setColor(int x) {
+	model->setColor(x);
 }
 
 // ShapesModel
@@ -212,4 +216,12 @@ void ShapesModel::removeSelected() {
 		}
 		selected.clear();
 	}
+}
+
+ECGVColor ShapesModel::getColor() {
+	return color;
+}
+
+void ShapesModel::setColor(int x) {
+	color = parseColor(x);
 }

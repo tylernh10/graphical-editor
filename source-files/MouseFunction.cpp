@@ -11,7 +11,6 @@ void ECAbstractMouseFunction::saveCursorPosition()  {
 
 // EditModeMouseFunction
 void EditModeMouseFunction::mouseDown() {
-    // > 110 ensures that menu area is off limits
     if (!ctrl.getMouseDown()) {
         ctrl.setMouseDown();
         ctrl.setMouseDownThisMode(1);

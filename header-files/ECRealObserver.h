@@ -15,15 +15,16 @@ class ECAbstractMouseFunction;
 
 // Spacebar observer
 // used to change mode
-class ECSpaceObserver : public ECObserver
+class ECModeObserver : public ECObserver
 {
 public:
-    ECSpaceObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
-    virtual ~ECSpaceObserver() {}
+    ECModeObserver(ECGraphicViewImp& view, Controller& ctrl, Menu& m) : view(view), ctrl(ctrl), menu(m) {}
+    virtual ~ECModeObserver() {}
     virtual void Update() override;
 private:
     ECGraphicViewImp& view;
     Controller& ctrl;
+    Menu& menu;
 };
 
 // Draw observer
@@ -31,31 +32,31 @@ private:
 class ECDrawObserver : public ECObserver
 {
 public:
-    ECDrawObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
+    ECDrawObserver(ECGraphicViewImp& view, Controller& ctrl, Menu& m) : view(view), ctrl(ctrl), menu(m) {}
     virtual ~ECDrawObserver() {}
     virtual void Update() override;
-    void attachMenu(Menu* m) { menu = m; }
 private:
     ECGraphicViewImp& view;
     Controller& ctrl;
-    Menu* menu;
+    Menu& menu;
 };
 
-// D key observer
+// Delete observer
 // deletes selected shape in edit mode
-class ECDObserver : public ECObserver
+class ECDelObserver : public ECObserver
 {
 public:
-    ECDObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
-    virtual ~ECDObserver() {}
-    virtual void Update();
+    ECDelObserver(ECGraphicViewImp& view, Controller& ctrl, Menu& m) : view(view), ctrl(ctrl), menu(m) {}
+    virtual ~ECDelObserver() {}
+    virtual void Update() override;
 private:
     ECGraphicViewImp& view;
     Controller& ctrl;
+    Menu& menu;
 };
 
 // Mouse Observer
-// various functionality when mouse is pressed down/up in both edit and insert mode
+// various functionality when mouse is pressed down/up in both edit and insert mode (doesn't include menu clicking functionality)
 class ECMouseObserver : public ECObserver
 {
 public:
@@ -74,39 +75,41 @@ private:
 class ECUndoRedoObserver : public ECObserver
 {
 public:
-    ECUndoRedoObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
+    ECUndoRedoObserver(ECGraphicViewImp& view, Controller& ctrl, Menu& m) : view(view), ctrl(ctrl), menu(m) {}
     virtual ~ECUndoRedoObserver() {}
     virtual void Update();
 private:
     ECGraphicViewImp& view;
     Controller& ctrl;
+    Menu& menu;
 };
 
-// G Key Observer
-// Toggles rectangle and ellipse insertion when in insert mode
+// Group Observer
 // Groups/ungroups when in edit mode
-class ECGObserver : public ECObserver
+class ECGroupObserver : public ECObserver
 {
 public:
-    ECGObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
-    virtual ~ECGObserver() {}
+    ECGroupObserver(ECGraphicViewImp& view, Controller& ctrl, Menu& m) : view(view), ctrl(ctrl), menu(m) {}
+    virtual ~ECGroupObserver() {}
     virtual void Update();
 private:
     ECGraphicViewImp& view;
     Controller& ctrl;
+    Menu& menu;
 };
 
-// F Key Observer
-// Toggles filled and non-filled mode
-class ECFObserver : public ECObserver
+// Type Insert Observer
+// Determines which shape to insert
+class ECTypeInsertObserver : public ECObserver
 {
 public:
-    ECFObserver(ECGraphicViewImp& view, Controller& ctrl) : view(view), ctrl(ctrl) {}
-    virtual ~ECFObserver() {}
+    ECTypeInsertObserver(ECGraphicViewImp& view, Controller& ctrl, Menu& m) : view(view), ctrl(ctrl), menu(m) {}
+    virtual ~ECTypeInsertObserver() {}
     virtual void Update();
 private:
     ECGraphicViewImp& view;
     Controller& ctrl;
+    Menu& menu;
 };
 
 // CTRL Key Observer
@@ -120,6 +123,20 @@ public:
 private:
     ECGraphicViewImp& view;
     Controller& ctrl;
+};
+
+// Color Observer
+// Allows user to change color with buttons in menu
+class ECColorObserver : public ECObserver
+{
+public:
+    ECColorObserver(ECGraphicViewImp& view, Controller& ctrl, Menu& m) : view(view), ctrl(ctrl), menu(m) {}
+    virtual ~ECColorObserver() {}
+    virtual void Update();
+private:
+    ECGraphicViewImp& view;
+    Controller& ctrl;
+    Menu& menu;
 };
 
 // Arrow Key Observers

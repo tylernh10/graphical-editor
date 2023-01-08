@@ -335,3 +335,11 @@ void ECGraphicViewImp::DrawFilledEllipse(int xcenter, int ycenter, double radius
 {
     al_draw_filled_ellipse(xcenter, ycenter, radiusx, radiusy, arrayAllegroColors[color]);
 }
+
+void ECGraphicViewImp::defaultCursor() {
+    al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
+}
+
+void ECGraphicViewImp::insertCursor() {
+    al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_PRECISION);
+}
