@@ -137,7 +137,7 @@ void ECHelpObserver::Update() {
             "Hover over a button in the menu at the top of the screen to see what it does.\n\n"
             "The keyboard can also be used for menu operations.\n"
             "Press the spacebar to switch modes (edit and insert).\n"
-            "Press S to save.\n"
+            "Press S to save. (Note that the graphical image will be automatically saved to the file specified on the command line when the application closes)\n"
             "Press H to open the Help Dialog (this message).\n"
             "Press Z to undo an action.\n"
             "Press Y to redo an action.\n\n"
