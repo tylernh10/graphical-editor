@@ -33,7 +33,7 @@ private:
 // deletes all shapes passed in
 class DeleteShape : public ECCommand {
 public:    
-    DeleteShape(vector<Shape*>& s, ShapesModel* model): s(s), ECCommand(model) {}
+    DeleteShape(vector<Shape*>& s, ShapesModel* model): ECCommand(model), s(s) {}
     virtual ~DeleteShape() {}
     virtual void Execute() override;
     virtual void UnExecute() override;
@@ -44,7 +44,7 @@ private:
 // moves all shapes passed in
 class MoveShape : public ECCommand {
 public:    
-    MoveShape(int translateX, int translateY, vector<Shape*>& s, ShapesModel * model): translateX(translateX), translateY(translateY), s(s), ECCommand(model) {}
+    MoveShape(int translateX, int translateY, vector<Shape*>& s, ShapesModel * model): ECCommand(model), translateX(translateX), translateY(translateY), s(s) {}
     virtual ~MoveShape() {}
     virtual void Execute() override;
     virtual void UnExecute() override;
@@ -56,7 +56,7 @@ private:
 
 class Group : public ECCommand {
 public:
-    Group(vector<Shape*>& s, ShapesModel* model);
+    Group(vector<Shape*> s, ShapesModel* model);
     virtual ~Group() {}
     virtual void Execute() override;
     virtual void UnExecute() override;
@@ -67,7 +67,7 @@ private:
 
 class Ungroup : public ECCommand {
 public:
-    Ungroup(CompositeShape* c, ShapesModel* model): c(c), s(c->getShapes()), ECCommand(model) {}
+    Ungroup(CompositeShape* c, ShapesModel* model): ECCommand(model), s(c->getShapes()), c(c) {}
     virtual ~Ungroup() {}
     virtual void Execute() override;
     virtual void UnExecute() override;

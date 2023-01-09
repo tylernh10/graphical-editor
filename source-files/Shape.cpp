@@ -26,7 +26,7 @@ void Rectangle::Draw(ECGraphicViewImp& view) const {
 }
 
 // ellipse
-Ellipse::Ellipse(int x1, int y1, int x2, int y2, ECGVColor color, int type): Shape(x1, y1, x2, y2, color, 1) {
+Ellipse::Ellipse(int x1, int y1, int x2, int y2, ECGVColor color, int type): Shape(x1, y1, x2, y2, color, type) {
 	xCenter = (x1 + x2) / 2;
 	yCenter = (y1 + y2) / 2;
 	xRadius = (double)fabs(x1 - x2) / 2.0;

@@ -12,8 +12,8 @@ public:
 	Shape(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK, int type=0): x1(x1), y1(y1), x2(x2), y2(y2), color(color), type(type) {
 		attributes.SetColor(color);
 	}
-	~Shape() {}
-	ECDrawiingContext getAttributes() const { return attributes; }
+	virtual ~Shape() {}
+	ECDrawingContext getAttributes() const { return attributes; }
 	int getX1() const { return x1; }
 	int getY1() const { return y1; }
 	int getX2() const { return x2; }
@@ -29,7 +29,7 @@ public:
 		return color;
 	}
 private:
-	ECDrawiingContext attributes;
+	ECDrawingContext attributes;
 	int x1; // corner 1 x value
 	int y1; // corner 1 y value
 	int x2; // corner 2 x value
@@ -40,7 +40,7 @@ private:
 
 class Rectangle : public Shape {
 public:
-	Rectangle(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK, int type=0): Shape(x1, y1, x2, y2, color, 0) {}
+	Rectangle(int x1, int y1, int x2, int y2, ECGVColor color = ECGV_BLACK, int type=0): Shape(x1, y1, x2, y2, color, type) {}
 	virtual bool isPointInside(int px, int py) const override;
 	virtual void Draw(ECGraphicViewImp& view) const override;
 	virtual void writeShape(ofstream& f) const override;
