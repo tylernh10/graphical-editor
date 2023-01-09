@@ -17,7 +17,7 @@ using namespace std;
 class Menu {
 public:
 	Menu(EditModeMouseFunction& e, InsertModeMouseFunction& i);
-	~Menu(); // TODO: destroy all bitmaps
+	~Menu();
 	void initDivider(ALLEGRO_BITMAP* div);
 	void initBackground(ALLEGRO_BITMAP* bg);
 	void initButtons(vector<ALLEGRO_BITMAP*> bts);

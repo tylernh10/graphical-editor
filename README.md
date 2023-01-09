@@ -1,24 +1,25 @@
 ## Graphical Editor
 
-This is a Graphical Editor written in C++ using the game engine Allegro as the basis for the GUI.
+This is a Graphical Editor written in C++ using the game engine Allegro5 as the basis for the GUI.
 
 ### To Compile:
 g++ source-files/ECGraphicViewImp.cpp source-files/GraphicViewMain.cpp source-files/Command.cpp source-files/ShapesModel.cpp source-files/Shape.cpp source-files/ECRealObserver.cpp source-files/MouseFunction.cpp source-files/Menu.cpp -lallegro -lallegro_font -lallegro_primitives -lallegro_main -lallegro_image -lallegro_main -lallegro_dialog -lallegro_ttf -o editor
 
-**Note:** Allegro must be installed. If you are on Mac or Linux, Allegro can be installed directly. If you are on Windows, you can run Allegro5 applications through visual studio. Please refer to [this video](https://www.youtube.com/watch?v=UgGKBW_kU20) for instructions.
+**Note:** Allegro must be installed. If you are on Mac or Linux, Allegro can be installed directly. If you are on Windows, you can run Allegro5 applications through visual studio. Please refer to [this video](https://www.youtube.com/watch?v=UgGKBW_kU20) for instructions. [The Allegro wiki](https://github.com/liballeg/allegro_wiki/wiki/Quickstart) also has some useful information about installation.
 
 ### To Run:
 ./editor [\<filename\>.dat/.txt]\
-The above filename is optional. If included, it will attempt to load from the file. When the editor is closed, it will save to the filename that was provided. If no file is provided, the editor can still be run, but it will be blank upon opening and will not save once closed.
+The above filename is optional. If included, it will attempt to load a graphical image that has been previously saved from the file. When the editor is closed, **the program will save to the filename that was provided** (though starting with v2.0.0, it is possible to save before program close). If no file is provided, the editor can still run, but it will be blank upon opening and will not save once closed.
+
+The next section will go over the different program modes and how to use them. **To switch modes, press the spacebar or click on the respective mode button in the menu.**
 
 ### Edit Mode:
 This is the default mode when the editor is opened.\
-**To switch modes, press the spacebar or click on the respective mode button in the menu.**\
 In this mode, the user can select and manipulate shapes.\
 **Selecting:** To select a shape, simply click within the shape's area. If there are multiple shapes in the same area, the one added most recently is selected. The selected shape will show up in blue.\
 **Deselecting**: To deselect a shape, click outside any shapes.\
-**Deleting:** To delete a shape, select it and then press the "D" key or press the delete button in the menu.\
-**Moving:** To move a shape, select it, and while the mouse is pressed, move the mouse to a different location. Note that when moving a shape, a light blue trace shape follows the user's mouse. It will become a real shape once the user releases the mouse.\
+**Deleting:** To delete a shape, select it and then press the D key or press the delete button in the menu.\
+**Moving:** To move a shape, select it, and while the mouse is pressed, move the mouse to a different location. Note that when moving a shape, a light blue trace shape follows the user's mouse. It will become a 'real' shape once the user releases the mouse.\
 **Multiple Select:** By holding ctrl, multiple shapes can be selected at the same time. As with individual shapes,
 clicking outside of any shape will unselect all shapes. All selected shapes will be colored blue.
 When multiple (or individual) shapes are selected, any amount of shapes can be moved by
@@ -39,6 +40,8 @@ There are four types of shapes that can be inserted:
 The Unfilled Rectangle is the default shape. Pressing the "F" key once allows a filled shape to be pressed, and pressing it again goes back to unfilled mode. Pressing "G" once switches to inserting Ellipses. Pressing "G" again goes back to inserting Rectangles. Also, by pressing the corresponding shape buttons in menu, the insert shape will be changed.
 
 The color of the insert shape can be changed by clicking the color buttons in the menu.
+
+With v2.0.0, there are updates to the locations which a user can interact with shapes onscreen. The cursor may not be in the region of the menu when selecting a shape or when inserting a shape (either the mousedown or mouseup event associated with insertion). When moving a shape, part of the shape can be moved underneath the menu (similar to how the shape can be moved offscreen), but the mouse may not be released under the menu so there will always be a part of the shape that is accessible for the user to click. With v2.1.0, shapes must remain on the board with similar checks being made with the bounds of the window.
 
 ### Undo/Redo:
 The following actions can be undone/redone using the "Z" key for Undo and the "Y" key for redo or the corresponding undo and redo buttons in the menu:
@@ -91,7 +94,9 @@ This project was developed as an extension of the final project for CSE 3150 at 
 
 Prof. Wu developed some of the starter code for this project, as well as the general guidelines (including the shape scheme). Please refer to the [first commit](https://github.com/tylernh10/graphical-editor/commit/a6a3f97ce2edbd855a279af5db7a5f096f67467b) of this repository to see the starter code he developed. This mainly included Allegro5 initialization. All other code is original.
 
-Version 2.0.0 includes a fully funtional menu, the ability to save the document (other than on application close), the addition of a help dialog, the ability to change the color of shape inserted, as well as general improvements to the code as well as improved organization and documentation. Note that I have written all documentation in this file (README.md).
+Version 2.0.0 includes a fully functional menu, the ability to save the document (other than on application close), the addition of a help dialog, the ability to change the color of shape inserted, as well as general improvements to the code as well as improved organization and documentation.
+
+Version 2.1.0 includes a bug fix where shapes can no longer be moved completely out of the bounds of the window. It also includes code cleanup and improvements to documentation.
 
 All icons provided by  [Icons8](https://icons8.com/).
 

@@ -23,7 +23,7 @@ void EditModeMouseFunction::mouseUp() {
     ctrl.setMouseUp();
     int curX, curY;
     view.GetCursorPosition(curX, curY);
-    if (curY <= 110) return; // in space reserved for menu
+    if (curY <= 110 || curY >= 1000 || curX <= 0 || curX >= 1000) return; // makes sure all shapes are accessible on the board
     int translateX = curX - ctrl.getX();
     int translateY = curY - ctrl.getY();
     if (fabs(translateX) > 0 || fabs(translateY) > 0) {
