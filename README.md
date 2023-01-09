@@ -95,4 +95,4 @@ Version 2.0.0 includes a fully funtional menu, the ability to save the document 
 
 All icons provided by  [Icons8](https://icons8.com/).
 
-&copy; Tyler Hinrichs 2022
+&copy; Tyler Hinrichs 2022-2023
