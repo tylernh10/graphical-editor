@@ -36,7 +36,7 @@ private:
 	vector<ALLEGRO_BITMAP*> hoverButtons;
 	vector<ALLEGRO_BITMAP*> colorButtons;
 	vector<ALLEGRO_BITMAP*> colorHoverButtons;
-	vector<char*> hoverStrings = {
+	vector<const char*> hoverStrings = {
 		"Switch to edit mode",
 		"Switch to insert mode",
 		"Undo",

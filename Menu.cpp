@@ -89,7 +89,7 @@ void Menu::timer(int mode) {
 
 void Menu::detectMouse(int px, int py) {
 	// first 10 buttons follow this sizing scheme
-	for (unsigned int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10; i++) {
 		if (py < 75 && py > 0 && px >= i*75 && px < (i+1)*75) {
 			al_draw_bitmap(hoverButtons[i], i*75, 0, 0);
 			al_draw_text(font, al_map_rgb(0, 0, 0), 3, 80, ALLEGRO_ALIGN_LEFT, hoverStrings[i]);
@@ -99,7 +99,7 @@ void Menu::detectMouse(int px, int py) {
 			currentHover.at(i) = false;
 		}
 	}
-	for (unsigned int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++) {
 		if (py < 37 && py > 0 && px >= 10 * 75 + 37 * i && px < 10 * 75 + 37 * (i + 1)) {
 			al_draw_bitmap(colorHoverButtons.at(i), 10 * 75 + 37 * i, 0, 0);
 			al_draw_text(font, al_map_rgb(0, 0, 0), 3, 80, ALLEGRO_ALIGN_LEFT, hoverStrings[i+10]);
@@ -109,7 +109,7 @@ void Menu::detectMouse(int px, int py) {
 			currentHover.at(i + 10) = false;
 		}
 	}
-	for (unsigned int i = 4; i < 8; i++) {
+	for (int i = 4; i < 8; i++) {
 		if (py < 75 && py > 37 && px >= 10 * 75 + 37 * (i - 4) && px < 10 * 75 + 37 * (i - 4 + 1)) {
 			al_draw_bitmap(colorHoverButtons.at(i), 10 * 75 + 37 * (i - 4), 38, 0);
 			al_draw_text(font, al_map_rgb(0, 0, 0), 3, 80, ALLEGRO_ALIGN_LEFT, hoverStrings[i-4+14]);

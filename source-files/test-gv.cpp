@@ -12,7 +12,7 @@ using namespace std;
 
 CompositeShape* parseComposite(int numMembers, ifstream& f, ShapesModel* model) {
     vector<Shape*> shapes;
-    while (shapes.size() < numMembers) {
+    while (shapes.size() < (long unsigned int)numMembers) {
         vector<int> x;
         string data;
         getline(f, data);

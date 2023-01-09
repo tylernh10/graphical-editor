@@ -33,7 +33,7 @@ ALLEGRO_COLOR arrayAllegroColors[ECGV_NUM_COLORS] =
 // A graphic view implementation
 // This is built on top of the Allegro library
 
-ECGraphicViewImp::ECGraphicViewImp(int width, int height) : widthView(width), heightView(height), fRedraw(false), display(NULL), timer(NULL), event_queue(NULL)
+ECGraphicViewImp::ECGraphicViewImp(int width, int height) : widthView(width), heightView(height), fRedraw(false), display(NULL), event_queue(NULL), timer(NULL)
 {
     Init();
 }
@@ -176,7 +176,6 @@ void ECGraphicViewImp::Shutdown()
         al_destroy_event_queue(event_queue);
         event_queue = NULL;
     }
-    cout << "all allegro components destroyed" << endl;
 }
 
 ECGVEventType ECGraphicViewImp::WaitForEvent()

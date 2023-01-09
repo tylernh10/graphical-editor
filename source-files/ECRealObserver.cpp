@@ -5,8 +5,8 @@
 void ECModeObserver :: Update() {
     // using spacebar to switch modes
     if (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_SPACE ||
-        view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(0) && ctrl.getMode() == 1 || // switching to edit with buttons
-        view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(1) && ctrl.getMode() == 0) { // switching to insert with buttons
+        (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(0) && ctrl.getMode() == 1) || // switching to edit with buttons
+        (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(1) && ctrl.getMode() == 0)) { // switching to insert with buttons
         ctrl.changeMode();
         if (ctrl.getMode() == 0) view.defaultCursor();
         if (ctrl.getMode() == 1) view.insertCursor();
@@ -33,7 +33,7 @@ void ECDrawObserver :: Update() {
 // ECDelObserver
 void ECDelObserver :: Update() {
     if (ctrl.getMode() == 0 && view.GetCurrEvent() == ECGV_EV_KEY_DOWN_D ||
-        view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(4)) {
+        (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(4))) {
         ctrl.deleteShape(); // deletes selected shape if in edit mode
         view.SetRedraw(true);
     }
@@ -55,11 +55,11 @@ void ECMouseObserver::Update() {
 // ECUndoRedoObserver
 void ECUndoRedoObserver :: Update() {
     if (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_Z ||
-        view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(2)) {
+        (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(2))) {
         ctrl.Undo();
     }
     if (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_Y ||
-        view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(3)) {
+        (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(3))) {
         ctrl.Redo();
     }
     view.SetRedraw(true); // correct drawing for last undo
@@ -70,7 +70,7 @@ void ECGroupObserver::Update() {
     // must be in edit mode, then check whether G is pressed or pressing the group button in menu
     if (ctrl.getMode() == 0 && 
         view.GetCurrEvent() == ECGV_EV_KEY_DOWN_G ||
-        view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(5)) {
+        (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(5))) {
         ctrl.GroupShapes();
         ctrl.removeSelected();
     }
@@ -124,14 +124,14 @@ void ECColorObserver::Update() {
 
 void ECSaveObserver::Update() {
     if (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_S ||
-        view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(18)) {
+        (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(18))) {
         ctrl.save();
     }
 }
 
 void ECHelpObserver::Update() {
     if (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_H ||
-        view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(19)) {
+        (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(19))) {
         al_show_native_message_box(view.getDisplay(), "Help", "Graphical Editor Help Information", 
             "Use the mouse to draw, select, and move shapes.\n"
             "Hover over a button in the menu at the top of the screen to see what it does.\n\n"
