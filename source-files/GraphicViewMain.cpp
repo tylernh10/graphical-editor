@@ -1,6 +1,3 @@
-//
-//  Created by Yufeng Wu on 3/2/22.
-//
 #include "../header-files/ECGraphicViewImp.h"
 #include "../header-files/ECRealObserver.h"
 #include "../header-files/ShapesModel.h"
@@ -52,7 +49,7 @@ int real_main(int argc, char** argv)
 
     // menu init
     Menu menu(editMouseFunctionality, insertMouseFunctionality);
-    menu.initFont(al_load_ttf_font("IBMPlexSans-Regular.ttf", 18, 0));
+    menu.initFont(al_load_ttf_font("res/IBMPlexSans-Regular.ttf", 18, 0));
     menu.initDivider(al_load_bitmap("res/divider.jpg"));
     menu.initBackground(al_load_bitmap("res/background.jpg"));
 

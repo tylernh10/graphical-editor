@@ -4,6 +4,8 @@
 //
 //  Created by Yufeng Wu on 3/2/22.
 //
+//  Modified by Tyler Hinrichs in 2022-2023.
+//
 
 #include "../header-files/ECGraphicViewImp.h"
 #include "allegro5/allegro_primitives.h"

@@ -3,7 +3,7 @@
 This is a Graphical Editor written in C++ using the game engine Allegro as the basis for the GUI.
 
 ### To Compile:
-g++ source-files/ECGraphicViewImp.cpp source-files/test-gv.cpp source-files/Command.cpp source-files/ShapesModel.cpp source-files/Shape.cpp source-files/ECRealObserver.cpp source-files/MouseFunction.cpp source-file/Menu.cpp -lallegro -lallegro_font -lallegro_primitives -lallegro_main -lallegro_image -lallegro_main -lallegro_dialog -lallegro_ttf -o editor
+g++ source-files/ECGraphicViewImp.cpp source-files/GraphicViewMain.cpp source-files/Command.cpp source-files/ShapesModel.cpp source-files/Shape.cpp source-files/ECRealObserver.cpp source-files/MouseFunction.cpp source-files/Menu.cpp -lallegro -lallegro_font -lallegro_primitives -lallegro_main -lallegro_image -lallegro_main -lallegro_dialog -lallegro_ttf -o editor
 
 **Note:** Allegro must be installed. If you are on Mac or Linux, Allegro can be installed directly. If you are on Windows, you can run Allegro5 applications through visual studio. Please refer to [this video](https://www.youtube.com/watch?v=UgGKBW_kU20) for instructions.
 
