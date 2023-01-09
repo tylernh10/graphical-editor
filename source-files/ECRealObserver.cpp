@@ -32,7 +32,7 @@ void ECDrawObserver :: Update() {
 
 // ECDelObserver
 void ECDelObserver :: Update() {
-    if (ctrl.getMode() == 0 && view.GetCurrEvent() == ECGV_EV_KEY_DOWN_D ||
+    if ((ctrl.getMode() == 0 && view.GetCurrEvent() == ECGV_EV_KEY_DOWN_D) ||
         (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(4))) {
         ctrl.deleteShape(); // deletes selected shape if in edit mode
         view.SetRedraw(true);
@@ -69,7 +69,7 @@ void ECUndoRedoObserver :: Update() {
 void ECGroupObserver::Update() {
     // must be in edit mode, then check whether G is pressed or pressing the group button in menu
     if (ctrl.getMode() == 0 && 
-        view.GetCurrEvent() == ECGV_EV_KEY_DOWN_G ||
+        (view.GetCurrEvent() == ECGV_EV_KEY_DOWN_G) ||
         (view.GetCurrEvent() == ECGV_EV_MOUSE_BUTTON_DOWN && menu.checkOverButton(5))) {
         ctrl.GroupShapes();
         ctrl.removeSelected();
